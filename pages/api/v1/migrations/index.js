@@ -3,6 +3,7 @@ import { join } from "node:path";
 import database from "infra/database";
 
 export default async function migrations(req, res) {
+  let test;
   const allowedMethod = ["GET", "POST"];
   if (!allowedMethod.includes(req.method)) {
     return res.status(405).end();
