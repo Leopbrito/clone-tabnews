@@ -10,7 +10,7 @@ function checkPostgres() {
       return;
     }
 
-    console.log('✅ Postgres está pronto!!!')
+    console.log('\n✅ Postgres está pronto!!!')
   }
 }
  
