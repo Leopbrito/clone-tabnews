@@ -4,7 +4,7 @@ import database from "infra/database";
 
 export default async function migrations(req, res) {
   const allowedMethod = ["GET", "POST"];
-  if (!(allowedMethod.includes(req.method))) {
+  if (!allowedMethod.includes(req.method)) {
     return res.status(405).end();
   }
   let dbClient;
@@ -32,7 +32,7 @@ export default async function migrations(req, res) {
       if (migratedMigrations.length > 0) {
         return res.status(201).json(migratedMigrations);
       }
-      
+
       return res.status(200).json(migratedMigrations);
     }
   } catch (error) {
