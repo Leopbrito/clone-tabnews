@@ -4,10 +4,9 @@
   "description": "Repositorio para praticar as aulas do curso.dev",
   "main": "index.js",
   "scripts": {
-    "dev": "npm run services:up && npm run services:wait:database && npm run migrations:up && next dev",
-    "test": "npm run services:up && concurrently -n next,jest --hide next -k -s command-jest \"next dev\" \"jest --runInBand\"",
-    "posttest": "npm run services:down",
-    "test:watch": "NODE_ENV=development jest --runInBand --watchAll",
+    "dev": "npm run services:up && npm run services:wait:database && npm run migrations:up && next dev; npm run services:down",
+    "test": "npm run services:up && concurrently -n next,jest --hide next -k -s command-jest \"next dev\" \"jest --runInBand\"; npm run services:down",
+    "test:watch": "NODE_ENV=development jest --runInBand --verbose --watchAll",
     "services:up": "docker compose -f infra/compose.yaml up -d",
     "services:stop": "docker compose -f infra/compose.yaml stop",
     "services:down": "docker compose -f infra/compose.yaml down",
