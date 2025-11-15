@@ -1,5 +1,5 @@
+import { onErrorHandler, onNoMatchHandler } from "infra/controller";
 import database from "infra/database";
-import { InternalServerError, MethodNotAllowedError } from "infra/errors";
 import { createRouter } from "next-connect";
 import migrationRunner from "node-pg-migrate";
 import { resolve } from "node:path";
@@ -13,19 +13,6 @@ export default router.handler({
   onNoMatch: onNoMatchHandler,
   onError: onErrorHandler,
 });
-
-function onNoMatchHandler(request, response) {
-  const publicObjectError = new MethodNotAllowedError();
-  response.status(405).json(publicObjectError);
-}
-
-function onErrorHandler(error, request, response) {
-  const publicErrorObject = new InternalServerError({
-    cause: error,
-  });
-  console.log(publicErrorObject);
-  response.status(500).json(publicErrorObject);
-}
 
 const defaultMigrationsOptions = {
   dryRun: true,
