@@ -1,74 +1,64 @@
-export class InternalServerError extends Error {
+class BaseError extends Error {
+  constructor({ message, cause, statusCode, action, name }) {
+    super(message, { cause });
+    this.name = name;
+    this.statusCode = statusCode;
+    this.action = action;
+  }
+
+  toJSON() {
+    return {
+      name: this.name,
+      message: this.message,
+      action: this.action,
+      status_code: this.statusCode,
+    };
+  }
+}
+
+export class InternalServerError extends BaseError {
   constructor({ cause, statusCode }) {
-    super("Um erro interno não esperado aconteceu", { cause });
-    this.name = "InternalServerError";
-    this.action = "Entre em contato com o suporte.";
-    this.statusCode = statusCode || 500;
-  }
-
-  toJSON() {
-    return {
-      name: this.name,
-      message: this.message,
-      action: this.action,
-      status_code: this.statusCode,
-    };
-  }
-}
-
-export class MethodNotAllowedError extends Error {
-  constructor() {
-    super("Método não permitido para este endpont.");
-    this.name = "MethodNotAllowedError";
-    this.action =
-      "Verifique se o método HTTP enviado é válido para este endpoint.";
-    this.statusCode = 405;
-  }
-
-  toJSON() {
-    return {
-      name: this.name,
-      message: this.message,
-      action: this.action,
-      status_code: this.statusCode,
-    };
-  }
-}
-
-export class ServiceError extends Error {
-  constructor({ message, cause }) {
-    super(message || "Um erro interno não esperado aconteceu", { cause });
-    this.name = "ServiceError";
-    this.action = "Verifique se o serviço está disponivel.";
-    this.statusCode = 503;
-  }
-
-  toJSON() {
-    return {
-      name: this.name,
-      message: this.message,
-      action: this.action,
-      status_code: this.statusCode,
-    };
-  }
-}
-
-export class ValidationError extends Error {
-  constructor({ cause, message, action }) {
-    super(message || "Um erro de validação aconteceu.", {
+    super({
+      message: "Um erro interno não esperado aconteceu",
+      name: "InternalServerError",
+      action: "Entre em contato com o suporte.",
+      statusCode: statusCode || 500,
       cause,
     });
-    this.name = "ValidationError";
-    this.action = action || "Ajuste os dados enviados e tente novamente.";
-    this.statusCode = 400;
   }
+}
 
-  toJSON() {
-    return {
-      name: this.name,
-      message: this.message,
-      action: this.action,
-      status_code: this.statusCode,
-    };
+export class MethodNotAllowedError extends BaseError {
+  constructor() {
+    super({
+      message: "Método não permitido para este endpont.",
+      name: "MethodNotAllowedError",
+      action: "Verifique se o método HTTP enviado é válido para este endpoint.",
+      statusCode: 405,
+    });
+  }
+}
+
+export class ServiceError extends BaseError {
+  constructor({ message, cause }) {
+    super({
+      message: message || "Um erro interno não esperado aconteceu",
+      name: "ServiceError",
+      action: "Verifique se o serviço está disponivel.",
+      statusCode: 503,
+      cause,
+    });
+  }
+}
+
+export class ValidationError extends BaseError {
+  constructor({ cause, message, action }) {
+    super({
+      message: message || "Um erro de validação aconteceu.",
+      name: "ValidationError",
+      action: action || "Ajuste os dados enviados e tente novamente.",
+      statusCode: 400,
+      cause,
+    });
   }
 }
