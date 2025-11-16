@@ -62,3 +62,14 @@ export class ValidationError extends BaseError {
     });
   }
 }
+
+export class NotFoundError extends BaseError {
+  constructor({ message, action }) {
+    super({
+      message: message || "Não foi possivel encontrar esse recurso no sistema",
+      name: "NotFoundError",
+      action: action || "Verifique se os parametros do recurso estão corretos",
+      statusCode: 404,
+    });
+  }
+}
