@@ -73,3 +73,14 @@ export class NotFoundError extends BaseError {
     });
   }
 }
+
+export class UnauthorizedError extends BaseError {
+  constructor({ message, action }) {
+    super({
+      message: message || "Usuario não autenticado.",
+      name: "UnauthorizedError",
+      action: action || "Faça o login novamente.",
+      statusCode: 401,
+    });
+  }
+}
