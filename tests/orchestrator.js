@@ -33,10 +33,10 @@ async function runPendingMigrations() {
 async function createUser(userInputValues) {
   return await user.create({
     username:
-      userInputValues.username ||
+      userInputValues?.username ||
       faker.internet.username().replace(/[_.-]/g, ""),
-    email: userInputValues.email || faker.internet.email(),
-    password: userInputValues.password || "defaultPassword",
+    email: userInputValues?.email || faker.internet.email(),
+    password: userInputValues?.password || "defaultPassword",
   });
 }
 
