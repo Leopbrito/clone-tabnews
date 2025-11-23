@@ -28,6 +28,29 @@ async function renew(sessionId) {
   }
 }
 
+async function expireById(sessionId) {
+  const invalidatedSession = await runUpdateQuery(sessionId);
+  return invalidatedSession;
+
+  async function runUpdateQuery(sessionId) {
+    const result = await database.query({
+      text: `
+        UPDATE 
+          sessions 
+        SET 
+          expires_at = expires_at - interval '1 year',
+          updated_at = timezone('utc', now())
+        WHERE
+          id = $1
+        RETURNING
+          *
+      ;`,
+      values: [sessionId],
+    });
+    return result.rows[0];
+  }
+}
+
 async function create(userId) {
   const token = crypto.randomBytes(48).toString("hex");
   const expiresAt = new Date(Date.now() + EXPIRATION_IN_MILISECONDS);
@@ -86,6 +109,7 @@ const session = {
   renew,
   findOneValidByToken,
   EXPIRATION_IN_MILISECONDS,
+  expireById,
 };
 
 export default session;

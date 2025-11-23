@@ -1,4 +1,5 @@
 import {
+  clearSessionCookie,
   onErrorHandler,
   onNoMatchHandler,
   setSessionCookie,
@@ -10,6 +11,7 @@ import session from "models/session";
 const router = createRouter();
 
 router.post(postHandler);
+router.delete(deleteHandler);
 
 export default router.handler({
   onNoMatch: onNoMatchHandler,
@@ -29,4 +31,12 @@ async function postHandler(request, response) {
   setSessionCookie(response, newSession.token);
 
   return response.status(201).json(newSession);
+}
+
+async function deleteHandler(request, response) {
+  const sessionToken = request.cookies.session_id;
+  const sessionObject = await session.findOneValidByToken(sessionToken);
+  const invalidatedSession = await session.expireById(sessionObject.id);
+  clearSessionCookie(response);
+  return response.status(200).json(invalidatedSession);
 }
