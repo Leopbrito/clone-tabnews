@@ -34,24 +34,29 @@ async function hashPasswordInObject(userInputValues) {
 async function create(userInputValues) {
   await validateUniqueFields(userInputValues);
   await hashPasswordInObject(userInputValues);
+  injectDefaultFeaturesInObject(userInputValues);
 
   const newUser = runInsertQuery(userInputValues);
   return newUser;
 
   async function runInsertQuery(userInputValues) {
-    const { username, email, password } = userInputValues;
+    const { username, email, password, features } = userInputValues;
     const result = await database.query({
       text: `
         INSERT INTO 
-          users (username, email, password) 
+          users (username, email, password, features) 
         VALUES 
-          ($1, $2, $3)
+          ($1, $2, $3, $4)
         RETURNING
           *
       ;`,
-      values: [username, email, password],
+      values: [username, email, password, features],
     });
     return result.rows[0];
+  }
+
+  function injectDefaultFeaturesInObject(userInputValues) {
+    userInputValues.features = ["read:activation_token"];
   }
 }
 
