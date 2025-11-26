@@ -2,6 +2,7 @@ import database from "infra/database";
 import email from "infra/email";
 import { NotFoundError } from "infra/errors";
 import webserver from "infra/webserver";
+import user from "models/user";
 
 const EXPIRATION_IN_MILISECONDS = 60 * 15 * 1000; // 15 Minutes
 
@@ -26,11 +27,41 @@ async function create(userId) {
   }
 }
 
-async function findOneByUserId(userId) {
-  const activationTokenFound = await runSelectQuery(userId);
+async function markTokenAsUsed(tokenId) {
+  const activationToken = await runUpdateQuery(tokenId);
+  return activationToken;
+
+  async function runUpdateQuery(tokenId) {
+    const result = await database.query({
+      text: `
+        UPDATE 
+          user_activation_tokens 
+        SET 
+          used_at = timezone('utc', now()),
+          updated_at = timezone('utc', now())
+        WHERE
+          id = $1
+          AND expires_at > NOW()
+          AND used_at IS NULL
+        RETURNING
+          *
+      ;`,
+      values: [tokenId],
+    });
+    return result.rows[0];
+  }
+}
+
+async function activateUserByUserId(userId) {
+  const activatedUser = await user.setFeatures(userId, ["create:session"]);
+  return activatedUser;
+}
+
+async function findOneValidById(activationId) {
+  const activationTokenFound = await runSelectQuery(activationId);
   return activationTokenFound;
 
-  async function runSelectQuery(userId) {
+  async function runSelectQuery(activationId) {
     const result = await database.query({
       text: `
         SELECT  
@@ -38,11 +69,13 @@ async function findOneByUserId(userId) {
         FROM 
           user_activation_tokens
         WHERE
-          user_id = $1
+          id = $1
+          AND expires_at > NOW()
+          AND used_at IS NULL
         LIMIT
           1
       ;`,
-      values: [userId],
+      values: [activationId],
     });
 
     if (result.rowCount === 0) {
@@ -73,7 +106,9 @@ Tabnews`,
 const activation = {
   sendEmailToUser,
   create,
-  findOneByUserId,
+  findOneValidById,
+  markTokenAsUsed,
+  activateUserByUserId,
 };
 
 export default activation;

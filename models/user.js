@@ -187,12 +187,42 @@ async function update(username, userInputValues) {
   }
 }
 
+async function setFeatures(userId, features) {
+  const userWithFeatures = await runUpdateQuery(userId, features);
+  return userWithFeatures;
+
+  async function runUpdateQuery(userId, features) {
+    const result = await database.query({
+      text: `
+        UPDATE 
+          users 
+        SET 
+          features = $2,
+          updated_at = timezone('utc', now())
+        WHERE
+          id = $1
+        RETURNING
+          *
+      ;`,
+      values: [userId, features],
+    });
+    if (result.rowCount === 0) {
+      throw new NotFoundError({
+        message: "O id informado não foi encontrado no sistema.",
+        action: "Verifique se o id foi digitado corretamente.",
+      });
+    }
+    return result.rows[0];
+  }
+}
+
 const user = {
   create,
   findOneByUsername,
   findOneByEmail,
   findOneById,
   update,
+  setFeatures,
 };
 
 export default user;
