@@ -1,4 +1,6 @@
 import {
+  canRequest,
+  injecAnonymousOrUser,
   onErrorHandler,
   onNoMatchHandler,
   setSessionCookie,
@@ -9,7 +11,8 @@ import user from "models/user";
 
 const router = createRouter();
 
-router.get(getHandler);
+router.use(injecAnonymousOrUser);
+router.get(canRequest("read:session"), getHandler);
 
 export default router.handler({
   onNoMatch: onNoMatchHandler,

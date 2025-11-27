@@ -17,7 +17,7 @@ class BaseError extends Error {
 }
 
 export class InternalServerError extends BaseError {
-  constructor({ cause, statusCode }) {
+  constructor({ cause, statusCode } = {}) {
     super({
       message: "Um erro interno não esperado aconteceu",
       name: "InternalServerError",
@@ -40,7 +40,7 @@ export class MethodNotAllowedError extends BaseError {
 }
 
 export class ServiceError extends BaseError {
-  constructor({ message, cause }) {
+  constructor({ message, cause } = {}) {
     super({
       message: message || "Um erro interno não esperado aconteceu",
       name: "ServiceError",
@@ -52,7 +52,7 @@ export class ServiceError extends BaseError {
 }
 
 export class ValidationError extends BaseError {
-  constructor({ cause, message, action }) {
+  constructor({ cause, message, action } = {}) {
     super({
       message: message || "Um erro de validação aconteceu.",
       name: "ValidationError",
@@ -64,7 +64,7 @@ export class ValidationError extends BaseError {
 }
 
 export class NotFoundError extends BaseError {
-  constructor({ message, action }) {
+  constructor({ message, action } = {}) {
     super({
       message: message || "Não foi possivel encontrar esse recurso no sistema",
       name: "NotFoundError",
@@ -75,7 +75,7 @@ export class NotFoundError extends BaseError {
 }
 
 export class UnauthorizedError extends BaseError {
-  constructor({ message, action }) {
+  constructor({ message, action } = {}) {
     super({
       message: message || "Usuario não autenticado.",
       name: "UnauthorizedError",
@@ -86,7 +86,7 @@ export class UnauthorizedError extends BaseError {
 }
 
 export class ForbiddenError extends BaseError {
-  constructor({ message, action }) {
+  constructor({ message, action } = {}) {
     super({
       message: message || "Usuario sem permisão.",
       name: "ForbiddenError",

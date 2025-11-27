@@ -9,6 +9,8 @@ import {
 import { createRouter } from "next-connect";
 import authentication from "models/authentication";
 import session from "models/session";
+import authorization from "models/authorization";
+import { ForbiddenError } from "infra/errors";
 
 const router = createRouter();
 
@@ -28,6 +30,10 @@ async function postHandler(request, response) {
     userInputValues.email,
     userInputValues.password,
   );
+
+  if (!authorization.can(authenticatedUser, "create:session")) {
+    throw new ForbiddenError();
+  }
 
   const newSession = await session.create(authenticatedUser.id);
 
