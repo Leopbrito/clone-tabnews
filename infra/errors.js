@@ -84,3 +84,15 @@ export class UnauthorizedError extends BaseError {
     });
   }
 }
+
+export class ForbiddenError extends BaseError {
+  constructor({ message, action }) {
+    super({
+      message: message || "Usuario sem permisão.",
+      name: "ForbiddenError",
+      action:
+        action || "Verifique se voce tem permisão de acesso a esse recurso.",
+      statusCode: 403,
+    });
+  }
+}

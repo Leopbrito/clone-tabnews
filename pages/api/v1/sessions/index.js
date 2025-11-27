@@ -1,5 +1,7 @@
 import {
+  canRequest,
   clearSessionCookie,
+  injecAnonymousOrUser,
   onErrorHandler,
   onNoMatchHandler,
   setSessionCookie,
@@ -10,7 +12,8 @@ import session from "models/session";
 
 const router = createRouter();
 
-router.post(postHandler);
+router.use(injecAnonymousOrUser);
+router.post(canRequest("create:session"), postHandler);
 router.delete(deleteHandler);
 
 export default router.handler({
