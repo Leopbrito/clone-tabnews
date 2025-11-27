@@ -112,4 +112,35 @@ describe("POST /api/v1/users", () => {
       });
     });
   });
+
+  describe("Default User", () => {
+    test("With unique and valid data", async () => {
+      const user1 = await orchestrator.createUser();
+      await orchestrator.activateUser(user1);
+      const user1SessionObject = await orchestrator.createSession(user1.id);
+
+      const response = await fetch(`http://localhost:3000/api/v1/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: `session_id=${user1SessionObject.token}`,
+        },
+        body: JSON.stringify({
+          username: "otherValidUser",
+          email: "otherValidUser@test.com",
+          password: "defaultPassword",
+        }),
+      });
+      expect(response.status).toBe(403);
+
+      const responseBody = await response.json();
+
+      expect(responseBody).toEqual({
+        action: "Verifique se seu usuario tem acesso a feature: create:user",
+        message: "Usuario sem permisão.",
+        name: "ForbiddenError",
+        status_code: 403,
+      });
+    });
+  });
 });
