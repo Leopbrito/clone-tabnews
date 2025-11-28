@@ -1,9 +1,20 @@
-class BaseError extends Error {
-  constructor({ message, cause, statusCode, action, name }) {
-    super(message, { cause });
-    this.name = name;
-    this.statusCode = statusCode;
-    this.action = action;
+export interface BaseErrorConstructor {
+  name: string;
+  message: string;
+  action: string;
+  statusCode: number;
+  cause?: string;
+}
+
+abstract class BaseError extends Error {
+  statusCode: number;
+  action: string;
+
+  constructor(error: BaseErrorConstructor) {
+    super(error.message, { cause: error.cause });
+    this.name = error.name;
+    this.statusCode = error.statusCode;
+    this.action = error.action;
   }
 
   toJSON() {
@@ -17,13 +28,13 @@ class BaseError extends Error {
 }
 
 export class InternalServerError extends BaseError {
-  constructor({ cause, statusCode } = {}) {
+  constructor(error?: { cause: string }) {
     super({
       message: "Um erro interno não esperado aconteceu",
       name: "InternalServerError",
       action: "Entre em contato com o suporte.",
-      statusCode: statusCode || 500,
-      cause,
+      statusCode: 500,
+      cause: error.cause,
     });
   }
 }
@@ -40,58 +51,61 @@ export class MethodNotAllowedError extends BaseError {
 }
 
 export class ServiceError extends BaseError {
-  constructor({ message, cause } = {}) {
+  constructor(error?: { cause: string; message: string }) {
     super({
-      message: message || "Um erro interno não esperado aconteceu",
+      message: error?.message || "Um erro interno não esperado aconteceu",
       name: "ServiceError",
       action: "Verifique se o serviço está disponivel.",
       statusCode: 503,
-      cause,
+      cause: error?.cause,
     });
   }
 }
 
 export class ValidationError extends BaseError {
-  constructor({ cause, message, action } = {}) {
+  constructor(error?: { cause: string; message: string; action: string }) {
     super({
-      message: message || "Um erro de validação aconteceu.",
+      message: error?.message || "Um erro de validação aconteceu.",
       name: "ValidationError",
-      action: action || "Ajuste os dados enviados e tente novamente.",
+      action: error?.action || "Ajuste os dados enviados e tente novamente.",
       statusCode: 400,
-      cause,
+      cause: error?.cause,
     });
   }
 }
 
 export class NotFoundError extends BaseError {
-  constructor({ message, action } = {}) {
+  constructor(error?: { message: string; action: string }) {
     super({
-      message: message || "Não foi possivel encontrar esse recurso no sistema",
+      message:
+        error?.message || "Não foi possivel encontrar esse recurso no sistema",
       name: "NotFoundError",
-      action: action || "Verifique se os parametros do recurso estão corretos",
+      action:
+        error?.action || "Verifique se os parametros do recurso estão corretos",
       statusCode: 404,
     });
   }
 }
 
 export class UnauthorizedError extends BaseError {
-  constructor({ message, action } = {}) {
+  constructor(error?: { message: string; action: string }) {
     super({
-      message: message || "Usuario não autenticado.",
+      message: error?.message || "Usuario não autenticado.",
       name: "UnauthorizedError",
-      action: action || "Faça o login novamente.",
+      action: error?.action || "Faça o login novamente.",
       statusCode: 401,
     });
   }
 }
 
 export class ForbiddenError extends BaseError {
-  constructor({ message, action } = {}) {
+  constructor(error?: { message: string; action: string }) {
     super({
-      message: message || "Usuario sem permisão.",
+      message: error?.message || "Usuario sem permisão.",
       name: "ForbiddenError",
       action:
-        action || "Verifique se voce tem permisão de acesso a esse recurso.",
+        error?.action ||
+        "Verifique se voce tem permisão de acesso a esse recurso.",
       statusCode: 403,
     });
   }
