@@ -1,4 +1,4 @@
-import email from "infra/email";
+import { Email } from "infra/email";
 import orchestrator from "tests/orchestrator";
 
 beforeAll(async () => {
@@ -9,14 +9,14 @@ describe("infra/email.js", () => {
   test("send()", async () => {
     await orchestrator.deleteAllEmails();
 
-    await email.send({
+    await Email.send({
       from: "Sender <sender@test.com>",
       to: "recipient@test.com",
       subject: "Primeiro email",
       text: "corpo do primeiro email.",
     });
 
-    await email.send({
+    await Email.send({
       from: "Sender <sender@test.com>",
       to: "recipient@test.com",
       subject: "Segundo email",

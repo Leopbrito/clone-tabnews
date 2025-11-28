@@ -1,5 +1,5 @@
 import { Database } from "infra/database";
-import email from "infra/email";
+import { Email } from "infra/email";
 import { ForbiddenError, NotFoundError } from "infra/errors";
 import webserver from "infra/webserver";
 import user from "models/user";
@@ -100,7 +100,7 @@ async function findOneValidById(activationId) {
 }
 
 async function sendEmailToUser(createdUser, activationToken) {
-  await email.send({
+  await Email.send({
     from: "<contato@tabnews.com.br>",
     to: `${createdUser.email}`,
     subject: "Email de Ativação",

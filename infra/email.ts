@@ -10,12 +10,8 @@ const transporter = nodemailer.createTransport({
   secure: process.env.NODE_ENV === "production",
 });
 
-async function send(mailOptions) {
-  await transporter.sendMail(mailOptions);
+export class Email {
+  static async send(mailOptions) {
+    await transporter.sendMail(mailOptions);
+  }
 }
-
-const email = {
-  send,
-};
-
-export default email;
