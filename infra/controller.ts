@@ -9,7 +9,7 @@ import {
 import session from "models/session";
 import * as cookie from "cookie";
 import user from "models/user";
-import authorization from "models/authorization";
+import { Authorization } from "models/authorization";
 
 export function onNoMatchHandler(request, response) {
   const publicObjectError = new MethodNotAllowedError();
@@ -90,7 +90,7 @@ export function canRequest(feature) {
   return function canRequestMiddleware(request, response, next) {
     const userTryingToRequest = request.context.user;
 
-    if (authorization.can(userTryingToRequest, feature)) {
+    if (Authorization.can(userTryingToRequest, feature)) {
       return next();
     }
 

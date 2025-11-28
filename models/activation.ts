@@ -3,7 +3,7 @@ import email from "infra/email";
 import { ForbiddenError, NotFoundError } from "infra/errors";
 import webserver from "infra/webserver";
 import user from "models/user";
-import authorization from "./authorization";
+import { Authorization } from "./authorization";
 
 const EXPIRATION_IN_MILISECONDS = 60 * 15 * 1000; // 15 Minutes
 
@@ -56,7 +56,7 @@ async function markTokenAsUsed(tokenId) {
 async function activateUserByUserId(userId) {
   const userToActivate = await user.findOneById(userId);
 
-  if (!authorization.can(userToActivate, "read:activation_token")) {
+  if (!Authorization.can(userToActivate, "read:activation_token")) {
     throw new ForbiddenError();
   }
 
