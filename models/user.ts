@@ -1,6 +1,6 @@
 import { Database } from "infra/database";
 import { NotFoundError, ValidationError } from "infra/errors";
-import password from "models/password";
+import { Password } from "models/password";
 
 async function validateUniqueFields(userInputValues) {
   const { username = "", email = "" } = userInputValues;
@@ -27,7 +27,7 @@ async function validateUniqueFields(userInputValues) {
 }
 
 async function hashPasswordInObject(userInputValues) {
-  const hashedPassword = await password.hash(userInputValues.password);
+  const hashedPassword = await Password.hash(userInputValues.password);
   userInputValues.password = hashedPassword;
 }
 

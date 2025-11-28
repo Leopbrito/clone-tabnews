@@ -1,5 +1,5 @@
 import user from "models/user";
-import password from "models/password";
+import { Password } from "models/password";
 import { NotFoundError, UnauthorizedError } from "infra/errors";
 
 async function getAuthenticatedUser(providedEmail, providedPassword) {
@@ -34,7 +34,7 @@ async function getAuthenticatedUser(providedEmail, providedPassword) {
   }
 
   async function validatePassword(providedPassword, storedPassword) {
-    const correctPasswordMatch = await password.compare(
+    const correctPasswordMatch = await Password.compare(
       providedPassword,
       storedPassword,
     );
