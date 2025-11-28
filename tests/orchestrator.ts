@@ -1,5 +1,5 @@
 import retry from "async-retry";
-import database from "infra/database";
+import { Database } from "infra/database";
 import migrator from "models/migrator";
 import user from "models/user";
 import { faker } from "@faker-js/faker";
@@ -42,7 +42,7 @@ async function waitForAllServices() {
 }
 
 async function clearDatabase() {
-  await database.query("drop schema public cascade; create schema public;");
+  await Database.query("drop schema public cascade; create schema public;");
 }
 
 async function runPendingMigrations() {

@@ -1,10 +1,10 @@
-import database from "infra/database";
+import { Database } from "infra/database";
 import { NotFoundError, ValidationError } from "infra/errors";
 import password from "models/password";
 
 async function validateUniqueFields(userInputValues) {
   const { username = "", email = "" } = userInputValues;
-  const result = await database.query({
+  const result = await Database.query({
     text: `
         SELECT
           username, email 
@@ -41,7 +41,7 @@ async function create(userInputValues) {
 
   async function runInsertQuery(userInputValues) {
     const { username, email, password, features } = userInputValues;
-    const result = await database.query({
+    const result = await Database.query({
       text: `
         INSERT INTO 
           users (username, email, password, features) 
@@ -65,7 +65,7 @@ async function findOneByUsername(username) {
   return userFound;
 
   async function runSelectQuery(username) {
-    const result = await database.query({
+    const result = await Database.query({
       text: `
         SELECT  
           * 
@@ -95,7 +95,7 @@ async function findOneByEmail(email) {
   return userFound;
 
   async function runSelectQuery(email) {
-    const result = await database.query({
+    const result = await Database.query({
       text: `
         SELECT  
           * 
@@ -125,7 +125,7 @@ async function findOneById(id) {
   return userFound;
 
   async function runSelectQuery(id) {
-    const result = await database.query({
+    const result = await Database.query({
       text: `
         SELECT  
           * 
@@ -167,7 +167,7 @@ async function update(username, userInputValues) {
   return updatedUser;
 
   async function runUpdateQuery({ id, username, email, password }) {
-    const result = await database.query({
+    const result = await Database.query({
       text: `
         UPDATE
           users
@@ -192,7 +192,7 @@ async function setFeatures(userId, features) {
   return userWithFeatures;
 
   async function runUpdateQuery(userId, features) {
-    const result = await database.query({
+    const result = await Database.query({
       text: `
         UPDATE 
           users 

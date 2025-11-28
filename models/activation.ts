@@ -1,4 +1,4 @@
-import database from "infra/database";
+import { Database } from "infra/database";
 import email from "infra/email";
 import { ForbiddenError, NotFoundError } from "infra/errors";
 import webserver from "infra/webserver";
@@ -13,7 +13,7 @@ async function create(userId) {
   return activationToken;
 
   async function runInsertQuery(userId, expiresAt) {
-    const result = await database.query({
+    const result = await Database.query({
       text: `
         INSERT INTO 
           user_activation_tokens (user_id, expires_at) 
@@ -33,7 +33,7 @@ async function markTokenAsUsed(tokenId) {
   return activationToken;
 
   async function runUpdateQuery(tokenId) {
-    const result = await database.query({
+    const result = await Database.query({
       text: `
         UPDATE 
           user_activation_tokens 
@@ -72,7 +72,7 @@ async function findOneValidById(activationId) {
   return activationTokenFound;
 
   async function runSelectQuery(activationId) {
-    const result = await database.query({
+    const result = await Database.query({
       text: `
         SELECT  
           * 
