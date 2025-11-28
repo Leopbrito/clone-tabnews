@@ -1,13 +1,13 @@
 import webserver from "infra/webserver";
 import activation from "models/activation";
 import user from "models/user";
-import orchestrator from "tests/orchestrator";
+import { Orchestrator } from "tests/orchestrator";
 
 beforeAll(async () => {
-  await orchestrator.waitForAllServices();
-  await orchestrator.clearDatabase();
-  await orchestrator.runPendingMigrations();
-  await orchestrator.deleteAllEmails();
+  await Orchestrator.waitForAllServices();
+  await Orchestrator.clearDatabase();
+  await Orchestrator.runPendingMigrations();
+  await Orchestrator.deleteAllEmails();
 });
 
 describe("Use case: Registration Flow (all successful)", () => {
@@ -45,7 +45,7 @@ describe("Use case: Registration Flow (all successful)", () => {
   });
 
   test("Receive activation email", async () => {
-    const lastEmail = await orchestrator.getLastEmail();
+    const lastEmail = await Orchestrator.getLastEmail();
 
     [activationTokenId] = lastEmail.text.match(/[0-9a-fA-F-]{36}/g);
 

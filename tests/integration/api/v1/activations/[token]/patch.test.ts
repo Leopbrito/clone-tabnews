@@ -1,12 +1,12 @@
 import activation from "models/activation";
 import user from "models/user";
-import orchestrator from "tests/orchestrator";
+import { Orchestrator } from "tests/orchestrator";
 import { version as uuidVersion } from "uuid";
 
 beforeAll(async () => {
-  await orchestrator.waitForAllServices();
-  await orchestrator.clearDatabase();
-  await orchestrator.runPendingMigrations();
+  await Orchestrator.waitForAllServices();
+  await Orchestrator.clearDatabase();
+  await Orchestrator.runPendingMigrations();
 });
 
 describe("PATCH /api/v1/activations/[token]", () => {
@@ -35,7 +35,7 @@ describe("PATCH /api/v1/activations/[token]", () => {
         now: new Date(Date.now() - activation.EXPIRATION_IN_MILISECONDS),
       });
 
-      const createdUser = await orchestrator.createUser();
+      const createdUser = await Orchestrator.createUser();
       const expiredActivationToken = await activation.create(createdUser.id);
 
       jest.useRealTimers();
@@ -58,7 +58,7 @@ describe("PATCH /api/v1/activations/[token]", () => {
     });
 
     test("With already used token", async () => {
-      const createdUser = await orchestrator.createUser();
+      const createdUser = await Orchestrator.createUser();
       const activationToken = await activation.create(createdUser.id);
 
       const response1 = await fetch(
@@ -88,7 +88,7 @@ describe("PATCH /api/v1/activations/[token]", () => {
     });
 
     test("With valid token", async () => {
-      const createdUser = await orchestrator.createUser();
+      const createdUser = await Orchestrator.createUser();
       const activationToken = await activation.create(createdUser.id);
 
       const response = await fetch(
@@ -135,8 +135,8 @@ describe("PATCH /api/v1/activations/[token]", () => {
     });
 
     test("With valid token but already activated user", async () => {
-      const createdUser = await orchestrator.createUser();
-      await orchestrator.activateUser(createdUser);
+      const createdUser = await Orchestrator.createUser();
+      await Orchestrator.activateUser(createdUser);
       const activationToken = await activation.create(createdUser.id);
 
       const response = await fetch(
@@ -159,11 +159,11 @@ describe("PATCH /api/v1/activations/[token]", () => {
   });
   describe("Default user", () => {
     test("With valid token, but already logged user", async () => {
-      const user1 = await orchestrator.createUser();
-      await orchestrator.activateUser(user1);
-      const user1SessionObject = await orchestrator.createSession(user1.id);
+      const user1 = await Orchestrator.createUser();
+      await Orchestrator.activateUser(user1);
+      const user1SessionObject = await Orchestrator.createSession(user1.id);
 
-      const user2 = await orchestrator.createUser();
+      const user2 = await Orchestrator.createUser();
       const user2ActivationToken = await activation.create(user2.id);
 
       const response = await fetch(

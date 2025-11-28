@@ -1,18 +1,18 @@
-import orchestrator from "tests/orchestrator";
+import { Orchestrator } from "tests/orchestrator";
 import { version as uuidVersion } from "uuid";
 import session from "models/session";
 import setCookieParser from "set-cookie-parser";
 
 beforeAll(async () => {
-  await orchestrator.waitForAllServices();
-  await orchestrator.clearDatabase();
-  await orchestrator.runPendingMigrations();
+  await Orchestrator.waitForAllServices();
+  await Orchestrator.clearDatabase();
+  await Orchestrator.runPendingMigrations();
 });
 
 describe("POST /api/v1/sessions", () => {
   describe("Anonymous user", () => {
     test("With incorrect `email` but correct `password`", async () => {
-      await orchestrator.createUser({
+      await Orchestrator.createUser({
         password: "correctPassword",
       });
 
@@ -39,7 +39,7 @@ describe("POST /api/v1/sessions", () => {
     });
 
     test("With correct `email` but incorrect `password`", async () => {
-      await orchestrator.createUser({
+      await Orchestrator.createUser({
         email: "correct.email@test.com",
       });
 
@@ -66,7 +66,7 @@ describe("POST /api/v1/sessions", () => {
     });
 
     test("With incorrect `email` and incorrect `password`", async () => {
-      await orchestrator.createUser();
+      await Orchestrator.createUser();
 
       const response = await fetch("http://localhost:3000/api/v1/sessions", {
         method: "POST",
@@ -91,12 +91,12 @@ describe("POST /api/v1/sessions", () => {
     });
 
     test("With correct `email` and correct `password`", async () => {
-      const createdUser = await orchestrator.createUser({
+      const createdUser = await Orchestrator.createUser({
         email: "all.correct@test.com",
         password: "correctPassword",
       });
 
-      await orchestrator.activateUser(createdUser);
+      await Orchestrator.activateUser(createdUser);
 
       const response = await fetch("http://localhost:3000/api/v1/sessions", {
         method: "POST",

@@ -1,11 +1,11 @@
 import session from "models/session";
-import orchestrator from "tests/orchestrator";
+import { Orchestrator } from "tests/orchestrator";
 import setCookieParser from "set-cookie-parser";
 
 beforeAll(async () => {
-  await orchestrator.waitForAllServices();
-  await orchestrator.clearDatabase();
-  await orchestrator.runPendingMigrations();
+  await Orchestrator.waitForAllServices();
+  await Orchestrator.clearDatabase();
+  await Orchestrator.runPendingMigrations();
 });
 
 describe("DELETE /api/v1/sessions", () => {
@@ -48,9 +48,9 @@ describe("DELETE /api/v1/sessions", () => {
         now: new Date(Date.now() - session.EXPIRATION_IN_MILISECONDS),
       });
 
-      const createdUser = await orchestrator.createUser();
+      const createdUser = await Orchestrator.createUser();
 
-      const sessionObject = await orchestrator.createSession(createdUser.id);
+      const sessionObject = await Orchestrator.createSession(createdUser.id);
 
       jest.useRealTimers();
 
@@ -85,8 +85,8 @@ describe("DELETE /api/v1/sessions", () => {
     });
 
     test("With valid session", async () => {
-      const createdUser = await orchestrator.createUser();
-      const sessionObject = await orchestrator.createSession(createdUser.id);
+      const createdUser = await Orchestrator.createUser();
+      const sessionObject = await Orchestrator.createSession(createdUser.id);
 
       const response1 = await fetch("http://localhost:3000/api/v1/sessions", {
         method: "DELETE",

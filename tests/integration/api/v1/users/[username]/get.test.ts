@@ -1,16 +1,16 @@
-import orchestrator from "tests/orchestrator";
+import { Orchestrator } from "tests/orchestrator";
 import { version as uuidVersion } from "uuid";
 
 beforeAll(async () => {
-  await orchestrator.waitForAllServices();
-  await orchestrator.clearDatabase();
-  await orchestrator.runPendingMigrations();
+  await Orchestrator.waitForAllServices();
+  await Orchestrator.clearDatabase();
+  await Orchestrator.runPendingMigrations();
 });
 
 describe("GET /api/v1/users/[username]", () => {
   describe("Anonymous user", () => {
     test("With exact case match", async () => {
-      await orchestrator.createUser({
+      await Orchestrator.createUser({
         username: "CaseMatch",
       });
 
@@ -37,7 +37,7 @@ describe("GET /api/v1/users/[username]", () => {
     });
 
     test("With case mismatch", async () => {
-      await orchestrator.createUser({
+      await Orchestrator.createUser({
         username: "CaseMismatch",
       });
 

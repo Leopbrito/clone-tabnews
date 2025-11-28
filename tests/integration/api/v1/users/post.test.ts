@@ -1,12 +1,12 @@
-import orchestrator from "tests/orchestrator";
+import { Orchestrator } from "tests/orchestrator";
 import { version as uuidVersion } from "uuid";
 import user from "models/user";
 import { Password } from "models/password";
 
 beforeAll(async () => {
-  await orchestrator.waitForAllServices();
-  await orchestrator.clearDatabase();
-  await orchestrator.runPendingMigrations();
+  await Orchestrator.waitForAllServices();
+  await Orchestrator.clearDatabase();
+  await Orchestrator.runPendingMigrations();
 });
 
 describe("POST /api/v1/users", () => {
@@ -55,7 +55,7 @@ describe("POST /api/v1/users", () => {
     });
 
     test("With duplicated `email`", async () => {
-      await orchestrator.createUser({
+      await Orchestrator.createUser({
         email: "duplicated.email@test.com",
       });
 
@@ -84,7 +84,7 @@ describe("POST /api/v1/users", () => {
     });
 
     test("With duplicated `username`", async () => {
-      await orchestrator.createUser({
+      await Orchestrator.createUser({
         username: "duplicatedUser",
       });
 
@@ -115,9 +115,9 @@ describe("POST /api/v1/users", () => {
 
   describe("Default User", () => {
     test("With unique and valid data", async () => {
-      const user1 = await orchestrator.createUser();
-      await orchestrator.activateUser(user1);
-      const user1SessionObject = await orchestrator.createSession(user1.id);
+      const user1 = await Orchestrator.createUser();
+      await Orchestrator.activateUser(user1);
+      const user1SessionObject = await Orchestrator.createSession(user1.id);
 
       const response = await fetch(`http://localhost:3000/api/v1/users`, {
         method: "POST",

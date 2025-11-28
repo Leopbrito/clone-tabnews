@@ -1,13 +1,13 @@
 import { Email } from "infra/email";
-import orchestrator from "tests/orchestrator";
+import { Orchestrator } from "tests/orchestrator";
 
 beforeAll(async () => {
-  orchestrator.waitForAllServices();
+  await Orchestrator.waitForAllServices();
 });
 
 describe("infra/email.js", () => {
   test("send()", async () => {
-    await orchestrator.deleteAllEmails();
+    await Orchestrator.deleteAllEmails();
 
     await Email.send({
       from: "Sender <sender@test.com>",
@@ -23,7 +23,7 @@ describe("infra/email.js", () => {
       text: "corpo do segundo email.",
     });
 
-    const lastEmail = await orchestrator.getLastEmail();
+    const lastEmail = await Orchestrator.getLastEmail();
     expect(lastEmail).toEqual({
       id: 2,
       sender: "<sender@test.com>",
