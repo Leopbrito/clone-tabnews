@@ -2,7 +2,7 @@ import { Database } from "infra/database";
 import { Email } from "infra/email";
 import { ForbiddenError, NotFoundError } from "infra/errors";
 import webserver from "infra/webserver";
-import user from "models/user";
+import { User } from "models/user";
 import { Authorization } from "./authorization";
 
 const EXPIRATION_IN_MILISECONDS = 60 * 15 * 1000; // 15 Minutes
@@ -54,13 +54,13 @@ async function markTokenAsUsed(tokenId) {
 }
 
 async function activateUserByUserId(userId) {
-  const userToActivate = await user.findOneById(userId);
+  const userToActivate = await User.findOneById(userId);
 
   if (!Authorization.can(userToActivate, "read:activation_token")) {
     throw new ForbiddenError();
   }
 
-  const activatedUser = await user.setFeatures(userId, [
+  const activatedUser = await User.setFeatures(userId, [
     "create:session",
     "read:session",
   ]);

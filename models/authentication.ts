@@ -1,4 +1,4 @@
-import user from "models/user";
+import { User } from "models/user";
 import { Password } from "models/password";
 import { NotFoundError, UnauthorizedError } from "infra/errors";
 
@@ -20,7 +20,7 @@ async function getAuthenticatedUser(providedEmail, providedPassword) {
 
   async function findUserByEmail(providedEmail) {
     try {
-      return await user.findOneByEmail(providedEmail);
+      return await User.findOneByEmail(providedEmail);
     } catch (error) {
       if (error instanceof NotFoundError) {
         throw new UnauthorizedError({

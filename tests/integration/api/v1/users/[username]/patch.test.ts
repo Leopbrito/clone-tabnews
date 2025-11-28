@@ -1,6 +1,6 @@
 import { Orchestrator } from "tests/orchestrator";
 import { version as uuidVersion } from "uuid";
-import user from "models/user";
+import { User } from "models/user";
 import { Password } from "models/password";
 
 beforeAll(async () => {
@@ -214,7 +214,7 @@ describe("PATCH /api/v1/users/[username]", () => {
 
       expect(responseBody.updated_at > responseBody.created_at).toBe(true);
 
-      const userInDatabase = await user.findOneByUsername(createdUser.username);
+      const userInDatabase = await User.findOneByUsername(createdUser.username);
       const correctPasswordMatch = await Password.compare(
         "newPassword2",
         userInDatabase.password,

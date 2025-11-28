@@ -1,5 +1,5 @@
 import activation from "models/activation";
-import user from "models/user";
+import { User } from "models/user";
 import { Orchestrator } from "tests/orchestrator";
 import { version as uuidVersion } from "uuid";
 
@@ -127,7 +127,7 @@ describe("PATCH /api/v1/activations/[token]", () => {
 
       expect(expiresAt - createdAt).toBe(activation.EXPIRATION_IN_MILISECONDS);
 
-      const activatedUser = await user.findOneById(responseBody.user_id);
+      const activatedUser = await User.findOneById(responseBody.user_id);
       expect(activatedUser.features).toEqual([
         "create:session",
         "read:session",

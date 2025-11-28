@@ -8,7 +8,7 @@ import {
 } from "infra/errors";
 import session from "models/session";
 import * as cookie from "cookie";
-import user from "models/user";
+import { User } from "models/user";
 import { Authorization } from "models/authorization";
 
 export function onNoMatchHandler(request, response) {
@@ -69,7 +69,7 @@ export async function injecAnonymousOrUser(request, response, next) {
 async function injectAuthenticatedUser(request) {
   const sessionToken = request.cookies.session_id;
   const sessionTokenObject = await session.findOneValidByToken(sessionToken);
-  const authenticatedUser = await user.findOneById(sessionTokenObject.user_id);
+  const authenticatedUser = await User.findOneById(sessionTokenObject.user_id);
   request.context = {
     ...request.context,
     user: authenticatedUser,

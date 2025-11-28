@@ -1,7 +1,7 @@
 import retry from "async-retry";
 import { Database } from "infra/database";
 import migrator from "models/migrator";
-import user from "models/user";
+import { User } from "models/user";
 import { faker } from "@faker-js/faker";
 import session from "models/session";
 import activation from "models/activation";
@@ -51,7 +51,7 @@ export class Orchestrator {
   }
 
   static async createUser(userInputValues) {
-    return await user.create({
+    return await User.create({
       username:
         userInputValues?.username ||
         faker.internet.username().replace(/[_.-]/g, ""),

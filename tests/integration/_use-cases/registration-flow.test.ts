@@ -1,6 +1,6 @@
 import webserver from "infra/webserver";
 import activation from "models/activation";
-import user from "models/user";
+import { User } from "models/user";
 import { Orchestrator } from "tests/orchestrator";
 
 beforeAll(async () => {
@@ -85,7 +85,7 @@ describe("Use case: Registration Flow (all successful)", () => {
 
     expect(Date.parse(activationResponseBody.used_at)).not.toBeNaN();
 
-    const activatedUser = await user.findOneByUsername("RegistrationFlowUser");
+    const activatedUser = await User.findOneByUsername("RegistrationFlowUser");
     expect(activatedUser.features).toEqual(["create:session", "read:session"]);
   });
 

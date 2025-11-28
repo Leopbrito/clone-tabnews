@@ -7,7 +7,7 @@ import {
 } from "infra/controller";
 import { createRouter } from "next-connect";
 import session from "models/session";
-import user from "models/user";
+import { User } from "models/user";
 
 const router = createRouter();
 
@@ -29,6 +29,6 @@ async function getHandler(request, response) {
     "no-store, no-cache, max-age=0, must-revalidate",
   );
 
-  const userFound = await user.findOneById(renewedSessionObject.user_id);
+  const userFound = await User.findOneById(renewedSessionObject.user_id);
   return response.status(200).json(userFound);
 }
