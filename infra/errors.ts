@@ -28,7 +28,7 @@ abstract class BaseError extends Error {
 }
 
 export class InternalServerError extends BaseError {
-  constructor(error?: { cause: string }) {
+  constructor(error?: { cause?: string }) {
     super({
       message: "Um erro interno não esperado aconteceu",
       name: "InternalServerError",
@@ -51,7 +51,7 @@ export class MethodNotAllowedError extends BaseError {
 }
 
 export class ServiceError extends BaseError {
-  constructor(error?: { cause: string; message: string }) {
+  constructor(error?: { cause?: string; message?: string }) {
     super({
       message: error?.message || "Um erro interno não esperado aconteceu",
       name: "ServiceError",
@@ -63,7 +63,7 @@ export class ServiceError extends BaseError {
 }
 
 export class ValidationError extends BaseError {
-  constructor(error?: { cause: string; message: string; action: string }) {
+  constructor(error?: { cause?: string; message?: string; action?: string }) {
     super({
       message: error?.message || "Um erro de validação aconteceu.",
       name: "ValidationError",
@@ -75,7 +75,7 @@ export class ValidationError extends BaseError {
 }
 
 export class NotFoundError extends BaseError {
-  constructor(error?: { message: string; action: string }) {
+  constructor(error?: { message?: string; action?: string }) {
     super({
       message:
         error?.message || "Não foi possivel encontrar esse recurso no sistema",
@@ -88,7 +88,7 @@ export class NotFoundError extends BaseError {
 }
 
 export class UnauthorizedError extends BaseError {
-  constructor(error?: { message: string; action: string }) {
+  constructor(error?: { message?: string; action?: string }) {
     super({
       message: error?.message || "Usuario não autenticado.",
       name: "UnauthorizedError",
@@ -99,7 +99,7 @@ export class UnauthorizedError extends BaseError {
 }
 
 export class ForbiddenError extends BaseError {
-  constructor(error?: { message: string; action: string }) {
+  constructor(error?: { message?: string; action?: string }) {
     super({
       message: error?.message || "Usuario sem permisão.",
       name: "ForbiddenError",
