@@ -6,7 +6,7 @@ import {
   ValidationError,
   ForbiddenError,
 } from "infra/errors";
-import session from "models/session";
+import { Session } from "models/session";
 import * as cookie from "cookie";
 import { User } from "models/user";
 import { Authorization } from "models/authorization";
@@ -40,7 +40,7 @@ export function onErrorHandler(error, request, response) {
 export function setSessionCookie(response, sessionToken) {
   const setCookie = cookie.serialize("session_id", sessionToken, {
     path: "/",
-    maxAge: session.EXPIRATION_IN_MILISECONDS / 1000,
+    maxAge: Session.EXPIRATION_IN_MILISECONDS / 1000,
     secure: process.env.NODE_ENV === "production",
     httpOnly: true,
   });
@@ -68,7 +68,7 @@ export async function injecAnonymousOrUser(request, response, next) {
 
 async function injectAuthenticatedUser(request) {
   const sessionToken = request.cookies.session_id;
-  const sessionTokenObject = await session.findOneValidByToken(sessionToken);
+  const sessionTokenObject = await Session.findOneValidByToken(sessionToken);
   const authenticatedUser = await User.findOneById(sessionTokenObject.user_id);
   request.context = {
     ...request.context,

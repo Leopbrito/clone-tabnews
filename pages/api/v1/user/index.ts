@@ -6,7 +6,7 @@ import {
   setSessionCookie,
 } from "infra/controller";
 import { createRouter } from "next-connect";
-import session from "models/session";
+import { Session } from "models/session";
 import { User } from "models/user";
 
 const router = createRouter();
@@ -21,8 +21,8 @@ export default router.handler({
 
 async function getHandler(request, response) {
   const sessionToken = request.cookies.session_id;
-  const sessionObject = await session.findOneValidByToken(sessionToken);
-  const renewedSessionObject = await session.renew(sessionObject.id);
+  const sessionObject = await Session.findOneValidByToken(sessionToken);
+  const renewedSessionObject = await Session.renew(sessionObject.id);
   setSessionCookie(response, renewedSessionObject.token);
   response.setHeader(
     "Cache-Control",

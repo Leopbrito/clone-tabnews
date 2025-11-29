@@ -1,4 +1,4 @@
-import session from "models/session";
+import { Session } from "models/session";
 import { Orchestrator } from "tests/orchestrator";
 import setCookieParser from "set-cookie-parser";
 
@@ -45,7 +45,7 @@ describe("DELETE /api/v1/sessions", () => {
 
     test("With expired session", async () => {
       jest.useFakeTimers({
-        now: new Date(Date.now() - session.EXPIRATION_IN_MILISECONDS),
+        now: new Date(Date.now() - Session.EXPIRATION_IN_MILISECONDS),
       });
 
       const createdUser = await Orchestrator.createUser();

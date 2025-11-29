@@ -1,6 +1,6 @@
 import { Orchestrator } from "tests/orchestrator";
 import { version as uuidVersion } from "uuid";
-import session from "models/session";
+import { Session } from "models/session";
 import setCookieParser from "set-cookie-parser";
 
 beforeAll(async () => {
@@ -133,13 +133,13 @@ describe("POST /api/v1/sessions", () => {
       expiresAt.setMilliseconds(0);
       createdAt.setMilliseconds(0);
 
-      expect(expiresAt - createdAt).toBe(session.EXPIRATION_IN_MILISECONDS);
+      expect(expiresAt - createdAt).toBe(Session.EXPIRATION_IN_MILISECONDS);
 
       const parsedSetCookies = setCookieParser(response, { map: true });
       expect(parsedSetCookies.session_id).toEqual({
         name: "session_id",
         value: responseBody.token,
-        maxAge: session.EXPIRATION_IN_MILISECONDS / 1000,
+        maxAge: Session.EXPIRATION_IN_MILISECONDS / 1000,
         path: "/",
         httpOnly: true,
       });

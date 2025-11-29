@@ -8,7 +8,7 @@ import {
 } from "infra/controller";
 import { createRouter } from "next-connect";
 import { Authentication } from "models/authentication";
-import session from "models/session";
+import { Session } from "models/session";
 import { Authorization } from "models/authorization";
 import { ForbiddenError } from "infra/errors";
 
@@ -35,7 +35,7 @@ async function postHandler(request, response) {
     throw new ForbiddenError();
   }
 
-  const newSession = await session.create(authenticatedUser.id);
+  const newSession = await Session.create(authenticatedUser.id);
 
   setSessionCookie(response, newSession.token);
 
@@ -44,8 +44,8 @@ async function postHandler(request, response) {
 
 async function deleteHandler(request, response) {
   const sessionToken = request.cookies.session_id;
-  const sessionObject = await session.findOneValidByToken(sessionToken);
-  const invalidatedSession = await session.expireById(sessionObject.id);
+  const sessionObject = await Session.findOneValidByToken(sessionToken);
+  const invalidatedSession = await Session.expireById(sessionObject.id);
   clearSessionCookie(response);
   return response.status(200).json(invalidatedSession);
 }

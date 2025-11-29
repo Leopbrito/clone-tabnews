@@ -1,4 +1,4 @@
-import session from "models/session";
+import { Session } from "models/session";
 import { Orchestrator } from "tests/orchestrator";
 import { version as uuidVersion } from "uuid";
 import setCookieParser from "set-cookie-parser";
@@ -61,7 +61,7 @@ describe("GET /api/v1/user", () => {
       expect(Date.parse(responseBody.created_at)).not.toBeNaN();
       expect(Date.parse(responseBody.updated_at)).not.toBeNaN();
 
-      const renewedSessionObject = await session.findOneValidByToken(
+      const renewedSessionObject = await Session.findOneValidByToken(
         sessionObject.token,
       );
 
@@ -76,7 +76,7 @@ describe("GET /api/v1/user", () => {
       expect(parsedSetCookies.session_id).toEqual({
         name: "session_id",
         value: renewedSessionObject.token,
-        maxAge: session.EXPIRATION_IN_MILISECONDS / 1000,
+        maxAge: Session.EXPIRATION_IN_MILISECONDS / 1000,
         path: "/",
         httpOnly: true,
       });
@@ -116,7 +116,7 @@ describe("GET /api/v1/user", () => {
 
     test("With expired session", async () => {
       jest.useFakeTimers({
-        now: new Date(Date.now() - session.EXPIRATION_IN_MILISECONDS),
+        now: new Date(Date.now() - Session.EXPIRATION_IN_MILISECONDS),
       });
 
       const createdUser = await Orchestrator.createUser({
