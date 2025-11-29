@@ -1,5 +1,5 @@
 import { onErrorHandler, onNoMatchHandler } from "infra/controller";
-import migrator from "models/migrator";
+import { Migrator } from "models/migrator";
 import { createRouter } from "next-connect";
 
 const router = createRouter();
@@ -13,12 +13,12 @@ export default router.handler({
 });
 
 async function getHandler(req, res) {
-  const pendingMigrations = await migrator.listPendingMigrations();
+  const pendingMigrations = await Migrator.listPendingMigrations();
   return res.status(200).json(pendingMigrations);
 }
 
 async function postHandler(req, res) {
-  const migratedMigrations = await migrator.runPendingMigrations();
+  const migratedMigrations = await Migrator.runPendingMigrations();
 
   if (migratedMigrations.length > 0) {
     return res.status(201).json(migratedMigrations);

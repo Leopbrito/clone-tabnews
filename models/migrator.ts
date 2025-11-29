@@ -10,42 +10,37 @@ const defaultMigrationsOptions = {
   migrationsTable: "pgmigrations",
 };
 
-async function listPendingMigrations() {
-  let dbClient;
-  try {
-    dbClient = await Database.getNewClient();
+export class Migrator {
+  static async listPendingMigrations() {
+    let dbClient;
+    try {
+      dbClient = await Database.getNewClient();
 
-    const pendingMigrations = await migrationRunner({
-      ...defaultMigrationsOptions,
-      dbClient,
-    } as RunnerOption);
+      const pendingMigrations = await migrationRunner({
+        ...defaultMigrationsOptions,
+        dbClient,
+      } as RunnerOption);
 
-    return pendingMigrations;
-  } finally {
-    await dbClient?.end();
+      return pendingMigrations;
+    } finally {
+      await dbClient?.end();
+    }
+  }
+
+  static async runPendingMigrations() {
+    let dbClient;
+    try {
+      dbClient = await Database.getNewClient();
+
+      const migratedMigrations = await migrationRunner({
+        ...defaultMigrationsOptions,
+        dbClient,
+        dryRun: false,
+      } as RunnerOption);
+
+      return migratedMigrations;
+    } finally {
+      await dbClient?.end();
+    }
   }
 }
-
-async function runPendingMigrations() {
-  let dbClient;
-  try {
-    dbClient = await Database.getNewClient();
-
-    const migratedMigrations = await migrationRunner({
-      ...defaultMigrationsOptions,
-      dbClient,
-      dryRun: false,
-    } as RunnerOption);
-
-    return migratedMigrations;
-  } finally {
-    await dbClient?.end();
-  }
-}
-
-const migrator = {
-  listPendingMigrations,
-  runPendingMigrations,
-};
-
-export default migrator;

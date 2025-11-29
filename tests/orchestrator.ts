@@ -1,6 +1,6 @@
 import retry from "async-retry";
 import { Database } from "infra/database";
-import migrator from "models/migrator";
+import { Migrator } from "models/migrator";
 import { User } from "models/user";
 import { faker } from "@faker-js/faker";
 import session from "models/session";
@@ -47,7 +47,7 @@ export class Orchestrator {
   }
 
   static async runPendingMigrations() {
-    await migrator.runPendingMigrations();
+    await Migrator.runPendingMigrations();
   }
 
   static async createUser(userInputValues) {
