@@ -4,7 +4,7 @@ import { Migrator } from "models/migrator";
 import { User } from "models/user";
 import { faker } from "@faker-js/faker";
 import session from "models/session";
-import activation from "models/activation";
+import { Activation } from "models/activation";
 
 const EMAIL_HTTP_URL = `http://${process.env.EMAIL_HTTP_HOST}:${process.env.EMAIL_HTTP_PORT}`;
 
@@ -71,7 +71,7 @@ export class Orchestrator {
   }
 
   static async activateUser(inactivatedUser) {
-    return await activation.activateUserByUserId(inactivatedUser.id);
+    return await Activation.activateUserByUserId(inactivatedUser.id);
   }
 
   static async getLastEmail() {

@@ -5,7 +5,7 @@ import {
   onNoMatchHandler,
 } from "infra/controller";
 import { createRouter } from "next-connect";
-import activation from "models/activation";
+import { Activation } from "models/activation";
 
 const router = createRouter();
 
@@ -20,11 +20,11 @@ export default router.handler({
 async function patchHandler(request, response) {
   const { token } = request.query;
 
-  const validActivationToken = await activation.findOneValidById(token);
+  const validActivationToken = await Activation.findOneValidById(token);
 
-  await activation.activateUserByUserId(validActivationToken.user_id);
+  await Activation.activateUserByUserId(validActivationToken.user_id);
 
-  const usedActivationTokenObject = await activation.markTokenAsUsed(token);
+  const usedActivationTokenObject = await Activation.markTokenAsUsed(token);
 
   return response.status(200).json(usedActivationTokenObject);
 }

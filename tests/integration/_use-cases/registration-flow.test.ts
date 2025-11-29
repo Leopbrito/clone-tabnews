@@ -1,5 +1,5 @@
 import webserver from "infra/webserver";
-import activation from "models/activation";
+import { Activation } from "models/activation";
 import { User } from "models/user";
 import { Orchestrator } from "tests/orchestrator";
 
@@ -64,7 +64,7 @@ describe("Use case: Registration Flow (all successful)", () => {
     );
 
     const activationTokenObject =
-      await activation.findOneValidById(activationTokenId);
+      await Activation.findOneValidById(activationTokenId);
 
     expect(activationTokenObject.user_id).toBe(createUserResponseBody.id);
     expect(activationTokenObject.used_at).toBe(null);

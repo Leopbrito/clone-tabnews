@@ -1,4 +1,4 @@
-import activation from "models/activation";
+import { Activation } from "models/activation";
 import { User } from "models/user";
 import { Orchestrator } from "tests/orchestrator";
 import { version as uuidVersion } from "uuid";
@@ -32,11 +32,11 @@ describe("PATCH /api/v1/activations/[token]", () => {
 
     test("With expired token", async () => {
       jest.useFakeTimers({
-        now: new Date(Date.now() - activation.EXPIRATION_IN_MILISECONDS),
+        now: new Date(Date.now() - Activation.EXPIRATION_IN_MILISECONDS),
       });
 
       const createdUser = await Orchestrator.createUser();
-      const expiredActivationToken = await activation.create(createdUser.id);
+      const expiredActivationToken = await Activation.create(createdUser.id);
 
       jest.useRealTimers();
       const response = await fetch(
@@ -59,7 +59,7 @@ describe("PATCH /api/v1/activations/[token]", () => {
 
     test("With already used token", async () => {
       const createdUser = await Orchestrator.createUser();
-      const activationToken = await activation.create(createdUser.id);
+      const activationToken = await Activation.create(createdUser.id);
 
       const response1 = await fetch(
         `http://localhost:3000/api/v1/activations/${activationToken.id}`,
@@ -89,7 +89,7 @@ describe("PATCH /api/v1/activations/[token]", () => {
 
     test("With valid token", async () => {
       const createdUser = await Orchestrator.createUser();
-      const activationToken = await activation.create(createdUser.id);
+      const activationToken = await Activation.create(createdUser.id);
 
       const response = await fetch(
         `http://localhost:3000/api/v1/activations/${activationToken.id}`,
@@ -125,7 +125,7 @@ describe("PATCH /api/v1/activations/[token]", () => {
       expiresAt.setMilliseconds(0);
       createdAt.setMilliseconds(0);
 
-      expect(expiresAt - createdAt).toBe(activation.EXPIRATION_IN_MILISECONDS);
+      expect(expiresAt - createdAt).toBe(Activation.EXPIRATION_IN_MILISECONDS);
 
       const activatedUser = await User.findOneById(responseBody.user_id);
       expect(activatedUser.features).toEqual([
@@ -137,7 +137,7 @@ describe("PATCH /api/v1/activations/[token]", () => {
     test("With valid token but already activated user", async () => {
       const createdUser = await Orchestrator.createUser();
       await Orchestrator.activateUser(createdUser);
-      const activationToken = await activation.create(createdUser.id);
+      const activationToken = await Activation.create(createdUser.id);
 
       const response = await fetch(
         `http://localhost:3000/api/v1/activations/${activationToken.id}`,
@@ -164,7 +164,7 @@ describe("PATCH /api/v1/activations/[token]", () => {
       const user1SessionObject = await Orchestrator.createSession(user1.id);
 
       const user2 = await Orchestrator.createUser();
-      const user2ActivationToken = await activation.create(user2.id);
+      const user2ActivationToken = await Activation.create(user2.id);
 
       const response = await fetch(
         `http://localhost:3000/api/v1/activations/${user2ActivationToken.id}`,
