@@ -7,7 +7,7 @@ import {
   setSessionCookie,
 } from "infra/controller";
 import { createRouter } from "next-connect";
-import authentication from "models/authentication";
+import { Authentication } from "models/authentication";
 import session from "models/session";
 import { Authorization } from "models/authorization";
 import { ForbiddenError } from "infra/errors";
@@ -26,7 +26,7 @@ export default router.handler({
 async function postHandler(request, response) {
   const userInputValues = request.body;
 
-  const authenticatedUser = await authentication.getAuthenticatedUser(
+  const authenticatedUser = await Authentication.getAuthenticatedUser(
     userInputValues.email,
     userInputValues.password,
   );
