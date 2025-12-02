@@ -11,11 +11,12 @@ import { Authentication } from "models/authentication";
 import { Session } from "models/session";
 import { Authorization } from "models/authorization";
 import { ForbiddenError } from "infra/errors";
+import { Feature } from "enums/feature.enum";
 
 const router = createRouter();
 
 router.use(injecAnonymousOrUser);
-router.post(canRequest("create:session"), postHandler);
+router.post(canRequest(Feature.CREATE_SESSION), postHandler);
 router.delete(deleteHandler);
 
 export default router.handler({
@@ -31,7 +32,7 @@ async function postHandler(request, response) {
     userInputValues.password,
   );
 
-  if (!Authorization.can(authenticatedUser, "create:session")) {
+  if (!Authorization.can(authenticatedUser, Feature.CREATE_SESSION)) {
     throw new ForbiddenError();
   }
 

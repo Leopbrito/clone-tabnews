@@ -1,3 +1,4 @@
+import { Feature } from "enums/feature.enum";
 import { Orchestrator } from "tests/orchestrator";
 import { version as uuidVersion } from "uuid";
 
@@ -25,7 +26,7 @@ describe("GET /api/v1/users/[username]", () => {
         id: responseBody.id,
         username: "CaseMatch",
         email: responseBody.email,
-        features: ["read:activation_token"],
+        features: [Feature.READ_ACTIVATION_TOTEN],
         password: responseBody.password,
         created_at: responseBody.created_at,
         updated_at: responseBody.updated_at,
@@ -53,7 +54,7 @@ describe("GET /api/v1/users/[username]", () => {
         id: responseBody.id,
         username: "CaseMismatch",
         email: responseBody.email,
-        features: ["read:activation_token"],
+        features: [Feature.READ_ACTIVATION_TOTEN],
         password: responseBody.password,
         created_at: responseBody.created_at,
         updated_at: responseBody.updated_at,

@@ -1,3 +1,4 @@
+import { Feature } from "enums/feature.enum";
 import { NotFoundError, ValidationError } from "infra/errors";
 import { Password } from "models/password";
 import { UserRepository } from "repository/user.repository";
@@ -32,7 +33,7 @@ export class User {
     return newUser;
 
     function injectDefaultFeaturesInObject(userInputValues) {
-      userInputValues.features = ["read:activation_token"];
+      userInputValues.features = [Feature.READ_ACTIVATION_TOTEN];
     }
   }
 
@@ -86,7 +87,7 @@ export class User {
     return updatedUser;
   }
 
-  static async setFeatures(id, features) {
+  static async setFeatures(id: string, features: Feature[]) {
     const userWithFeatures = await UserRepository.updateFeatures(id, features);
     if (!userWithFeatures) {
       throw new NotFoundError({

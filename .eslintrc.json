@@ -1,8 +1,12 @@
 {
+  "parser": "@typescript-eslint/parser",
   "extends": [
     "eslint:recommended",
     "next/core-web-vitals",
     "plugin:jest/recommended",
-    "prettier"
-  ]
+    "prettier",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": ["@typescript-eslint"],
+  "ignorePatterns": ["infra/scripts/*"]
 }

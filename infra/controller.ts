@@ -10,6 +10,7 @@ import { Session } from "models/session";
 import * as cookie from "cookie";
 import { User } from "models/user";
 import { Authorization } from "models/authorization";
+import { Feature } from "enums/feature.enum";
 
 export function onNoMatchHandler(request, response) {
   const publicObjectError = new MethodNotAllowedError();
@@ -78,7 +79,11 @@ async function injectAuthenticatedUser(request) {
 
 function injectAnonymousUser(request) {
   const anonymousUserObject = {
-    features: ["read:activation_token", "create:session", "create:user"],
+    features: [
+      Feature.READ_ACTIVATION_TOTEN,
+      Feature.CREATE_SESSION,
+      Feature.CREATE_USER,
+    ],
   };
   request.context = {
     ...request.context,
@@ -86,7 +91,7 @@ function injectAnonymousUser(request) {
   };
 }
 
-export function canRequest(feature) {
+export function canRequest(feature: Feature) {
   return function canRequestMiddleware(request, response, next) {
     const userTryingToRequest = request.context.user;
 

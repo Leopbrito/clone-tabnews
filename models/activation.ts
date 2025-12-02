@@ -1,14 +1,15 @@
 import { Email } from "infra/email";
 import { ForbiddenError, NotFoundError } from "infra/errors";
-import webserver from "infra/webserver";
+import { WebServer } from "infra/webserver";
 import { User } from "models/user";
 import { Authorization } from "./authorization";
 import { ActivationRepository } from "repository/activation.repository";
+import { Feature } from "enums/feature.enum";
 
 const activationEmailTemplate = (username: string, activationToken: string) => {
   return `${username}, clique no link abaixo para ativar sua conta:
 
-${webserver.origin}/cadastro/ativar/${activationToken}
+${WebServer.origin}/cadastro/ativar/${activationToken}
 
 Atenciosamente
 Tabnews`;
@@ -31,13 +32,13 @@ export class Activation {
   static async activateUserByUserId(userId) {
     const userToActivate = await User.findOneById(userId);
 
-    if (!Authorization.can(userToActivate, "read:activation_token")) {
+    if (!Authorization.can(userToActivate, Feature.READ_ACTIVATION_TOTEN)) {
       throw new ForbiddenError();
     }
 
     const activatedUser = await User.setFeatures(userId, [
-      "create:session",
-      "read:session",
+      Feature.CREATE_SESSION,
+      Feature.READ_SESSION,
     ]);
     return activatedUser;
   }

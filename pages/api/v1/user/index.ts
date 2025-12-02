@@ -8,11 +8,12 @@ import {
 import { createRouter } from "next-connect";
 import { Session } from "models/session";
 import { User } from "models/user";
+import { Feature } from "enums/feature.enum";
 
 const router = createRouter();
 
 router.use(injecAnonymousOrUser);
-router.get(canRequest("read:session"), getHandler);
+router.get(canRequest(Feature.READ_SESSION), getHandler);
 
 export default router.handler({
   onNoMatch: onNoMatchHandler,

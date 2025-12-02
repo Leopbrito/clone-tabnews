@@ -1,3 +1,4 @@
+import { Feature } from "enums/feature.enum";
 import { Activation } from "models/activation";
 import { User } from "models/user";
 import { Orchestrator } from "tests/orchestrator";
@@ -129,8 +130,8 @@ describe("PATCH /api/v1/activations/[token]", () => {
 
       const activatedUser = await User.findOneById(responseBody.user_id);
       expect(activatedUser.features).toEqual([
-        "create:session",
-        "read:session",
+        Feature.CREATE_SESSION,
+        Feature.READ_SESSION,
       ]);
     });
 

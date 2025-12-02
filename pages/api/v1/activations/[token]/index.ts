@@ -6,11 +6,12 @@ import {
 } from "infra/controller";
 import { createRouter } from "next-connect";
 import { Activation } from "models/activation";
+import { Feature } from "enums/feature.enum";
 
 const router = createRouter();
 
 router.use(injecAnonymousOrUser);
-router.patch(canRequest("read:activation_token"), patchHandler);
+router.patch(canRequest(Feature.READ_ACTIVATION_TOTEN), patchHandler);
 
 export default router.handler({
   onNoMatch: onNoMatchHandler,

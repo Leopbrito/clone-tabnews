@@ -2,6 +2,7 @@ import { Session } from "models/session";
 import { Orchestrator } from "tests/orchestrator";
 import { version as uuidVersion } from "uuid";
 import setCookieParser from "set-cookie-parser";
+import { Feature } from "enums/feature.enum";
 
 beforeAll(async () => {
   await Orchestrator.waitForAllServices();
@@ -51,7 +52,7 @@ describe("GET /api/v1/user", () => {
         id: createdUser.id,
         username: "UserWithValidSession",
         email: createdUser.email,
-        features: ["create:session", "read:session"],
+        features: [Feature.CREATE_SESSION, Feature.READ_SESSION],
         password: createdUser.password,
         created_at: createdUser.created_at.toISOString(),
         updated_at: activatedUser.updated_at.toISOString(),

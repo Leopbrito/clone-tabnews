@@ -50,7 +50,7 @@ export class Orchestrator {
     await Migrator.runPendingMigrations();
   }
 
-  static async createUser(userInputValues) {
+  static async createUser(userInputValues?) {
     return await User.create({
       username:
         userInputValues?.username ||

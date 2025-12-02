@@ -2,6 +2,7 @@ import { Orchestrator } from "tests/orchestrator";
 import { version as uuidVersion } from "uuid";
 import { User } from "models/user";
 import { Password } from "models/password";
+import { Feature } from "enums/feature.enum";
 
 beforeAll(async () => {
   await Orchestrator.waitForAllServices();
@@ -126,7 +127,7 @@ describe("PATCH /api/v1/users/[username]", () => {
         id: responseBody.id,
         username: "uniqueUsername2",
         email: responseBody.email,
-        features: ["read:activation_token"],
+        features: [Feature.READ_ACTIVATION_TOTEN],
         password: responseBody.password,
         created_at: responseBody.created_at,
         updated_at: responseBody.updated_at,
@@ -164,7 +165,7 @@ describe("PATCH /api/v1/users/[username]", () => {
         id: responseBody.id,
         username: responseBody.username,
         email: "unique.email2@test.com",
-        features: ["read:activation_token"],
+        features: [Feature.READ_ACTIVATION_TOTEN],
         password: responseBody.password,
         created_at: responseBody.created_at,
         updated_at: responseBody.updated_at,
@@ -202,7 +203,7 @@ describe("PATCH /api/v1/users/[username]", () => {
         id: responseBody.id,
         username: responseBody.username,
         email: responseBody.email,
-        features: ["read:activation_token"],
+        features: [Feature.READ_ACTIVATION_TOTEN],
         password: responseBody.password,
         created_at: responseBody.created_at,
         updated_at: responseBody.updated_at,

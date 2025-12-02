@@ -1,4 +1,5 @@
-import webserver from "infra/webserver";
+import { Feature } from "enums/feature.enum";
+import { WebServer } from "infra/webserver";
 import { Activation } from "models/activation";
 import { User } from "models/user";
 import { Orchestrator } from "tests/orchestrator";
@@ -37,7 +38,7 @@ describe("Use case: Registration Flow (all successful)", () => {
       id: createUserResponseBody.id,
       username: "RegistrationFlowUser",
       email: "registration.flow@test.com",
-      features: ["read:activation_token"],
+      features: [Feature.READ_ACTIVATION_TOTEN],
       password: createUserResponseBody.password,
       created_at: createUserResponseBody.created_at,
       updated_at: createUserResponseBody.updated_at,
@@ -60,7 +61,7 @@ describe("Use case: Registration Flow (all successful)", () => {
     });
     expect(lastEmail.text).toContain("RegistrationFlowUser");
     expect(lastEmail.text).toContain(
-      `${webserver.origin}/cadastro/ativar/${activationTokenId}`,
+      `${WebServer.origin}/cadastro/ativar/${activationTokenId}`,
     );
 
     const activationTokenObject =
@@ -86,7 +87,10 @@ describe("Use case: Registration Flow (all successful)", () => {
     expect(Date.parse(activationResponseBody.used_at)).not.toBeNaN();
 
     const activatedUser = await User.findOneByUsername("RegistrationFlowUser");
-    expect(activatedUser.features).toEqual(["create:session", "read:session"]);
+    expect(activatedUser.features).toEqual([
+      Feature.CREATE_SESSION,
+      Feature.READ_SESSION,
+    ]);
   });
 
   test("Login", async () => {
