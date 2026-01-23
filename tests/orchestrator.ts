@@ -5,6 +5,7 @@ import { User } from "models/user";
 import { faker } from "@faker-js/faker";
 import { Session } from "models/session";
 import { Activation } from "models/activation";
+import { Feature } from "enums/feature.enum";
 
 const EMAIL_HTTP_URL = `http://${process.env.EMAIL_HTTP_HOST}:${process.env.EMAIL_HTTP_PORT}`;
 
@@ -62,6 +63,10 @@ export class Orchestrator {
 
   static async createSession(userId) {
     return await Session.create(userId);
+  }
+
+  static async addFeaturesToUser(user, features: Feature[]) {
+    return await User.addFeatures(user.id, features);
   }
 
   static async deleteAllEmails() {

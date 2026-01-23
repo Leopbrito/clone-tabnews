@@ -97,4 +97,15 @@ export class User {
     }
     return userWithFeatures;
   }
+
+  static async addFeatures(id: string, features: Feature[]) {
+    const userWithFeatures = await UserRepository.addFeatures(id, features);
+    if (!userWithFeatures) {
+      throw new NotFoundError({
+        message: "O id informado não foi encontrado no sistema.",
+        action: "Verifique se o id foi digitado corretamente.",
+      });
+    }
+    return userWithFeatures;
+  }
 }

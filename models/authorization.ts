@@ -11,7 +11,10 @@ export class Authorization {
     if (feature === Feature.UPDATE_USER && resource) {
       authorized = false;
 
-      if (user.id === resource.id) {
+      if (
+        user.id === resource.id ||
+        this.can(user, Feature.UPDATE_USER_OTHERS)
+      ) {
         authorized = true;
       }
     }

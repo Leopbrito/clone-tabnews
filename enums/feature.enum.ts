@@ -9,4 +9,5 @@ export enum Feature {
 
   // UPDATE
   UPDATE_USER = "update:user",
+  UPDATE_USER_OTHERS = "update:user:others",
 }
