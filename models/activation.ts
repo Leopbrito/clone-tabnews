@@ -39,6 +39,7 @@ export class Activation {
     const activatedUser = await User.setFeatures(userId, [
       Feature.CREATE_SESSION,
       Feature.READ_SESSION,
+      Feature.UPDATE_USER,
     ]);
     return activatedUser;
   }

@@ -6,4 +6,7 @@ export enum Feature {
   // READ
   READ_ACTIVATION_TOTEN = "read:activation_token",
   READ_SESSION = "read:session",
+
+  // UPDATE
+  UPDATE_USER = "update:user",
 }

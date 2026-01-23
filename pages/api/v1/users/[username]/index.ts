@@ -1,11 +1,17 @@
-import { onErrorHandler, onNoMatchHandler } from "infra/controller";
+import {
+  canRequest,
+  injecAnonymousOrUser,
+  onErrorHandler,
+  onNoMatchHandler,
+} from "infra/controller";
 import { createRouter } from "next-connect";
 import { User } from "models/user";
+import { Feature } from "enums/feature.enum";
 
 const router = createRouter();
-
+router.use(injecAnonymousOrUser);
 router.get(getHandler);
-router.patch(patchHandler);
+router.patch(canRequest(Feature.UPDATE_USER), patchHandler);
 
 export default router.handler({
   onNoMatch: onNoMatchHandler,
