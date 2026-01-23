@@ -132,6 +132,7 @@ describe("PATCH /api/v1/activations/[token]", () => {
       expect(activatedUser.features).toEqual([
         Feature.CREATE_SESSION,
         Feature.READ_SESSION,
+        Feature.UPDATE_USER,
       ]);
     });
 

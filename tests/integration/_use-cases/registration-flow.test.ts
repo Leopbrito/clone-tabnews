@@ -90,6 +90,7 @@ describe("Use case: Registration Flow (all successful)", () => {
     expect(activatedUser.features).toEqual([
       Feature.CREATE_SESSION,
       Feature.READ_SESSION,
+      Feature.UPDATE_USER,
     ]);
   });
 
