@@ -61,8 +61,8 @@ export class Orchestrator {
     });
   }
 
-  static async createSession(userId) {
-    return await Session.create(userId);
+  static async createSession(user) {
+    return await Session.create(user.id);
   }
 
   static async addFeaturesToUser(user, features: Feature[]) {
