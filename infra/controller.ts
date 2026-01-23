@@ -6,11 +6,11 @@ import {
   ValidationError,
   ForbiddenError,
 } from "infra/errors";
-import { Session } from "models/session";
+import { Session } from "src/models/session";
 import * as cookie from "cookie";
-import { User } from "models/user";
-import { Authorization } from "models/authorization";
-import { Feature } from "enums/feature.enum";
+import { User } from "src/models/user";
+import { Authorization } from "src/models/authorization";
+import { Feature } from "src/enums/feature.enum";
 
 export function onNoMatchHandler(request, response) {
   const publicObjectError = new MethodNotAllowedError();

@@ -1,4 +1,4 @@
-import { Feature } from "enums/feature.enum";
+import { Feature } from "src/enums/feature.enum";
 import { Orchestrator } from "tests/orchestrator";
 import { version as uuidVersion } from "uuid";
 

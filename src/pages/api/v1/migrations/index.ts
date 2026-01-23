@@ -1,5 +1,5 @@
 import { onErrorHandler, onNoMatchHandler } from "infra/controller";
-import { Migrator } from "models/migrator";
+import { Migrator } from "src/models/migrator";
 import { createRouter } from "next-connect";
 
 const router = createRouter();

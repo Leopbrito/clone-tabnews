@@ -1,6 +1,6 @@
 import crypto from "node:crypto";
 import { UnauthorizedError } from "infra/errors";
-import { SessionRepository } from "repository/session.repository";
+import { SessionRepository } from "src/repository/session.repository";
 
 export class Session {
   static EXPIRATION_IN_MILISECONDS = 60 * 60 * 24 * 30 * 1000; // 30 Days

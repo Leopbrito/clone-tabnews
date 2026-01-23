@@ -1,7 +1,7 @@
-import { Feature } from "enums/feature.enum";
+import { Feature } from "src/enums/feature.enum";
 import { WebServer } from "infra/webserver";
-import { Activation } from "models/activation";
-import { User } from "models/user";
+import { Activation } from "src/models/activation";
+import { User } from "src/models/user";
 import { Orchestrator } from "tests/orchestrator";
 
 beforeAll(async () => {

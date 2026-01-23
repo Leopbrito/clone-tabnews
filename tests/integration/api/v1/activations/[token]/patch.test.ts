@@ -1,6 +1,6 @@
-import { Feature } from "enums/feature.enum";
-import { Activation } from "models/activation";
-import { User } from "models/user";
+import { Feature } from "src/enums/feature.enum";
+import { Activation } from "src/models/activation";
+import { User } from "src/models/user";
 import { Orchestrator } from "tests/orchestrator";
 import { version as uuidVersion } from "uuid";
 

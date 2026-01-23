@@ -5,8 +5,8 @@ import {
   onNoMatchHandler,
 } from "infra/controller";
 import { createRouter } from "next-connect";
-import { Activation } from "models/activation";
-import { Feature } from "enums/feature.enum";
+import { Activation } from "src/models/activation";
+import { Feature } from "src/enums/feature.enum";
 
 const router = createRouter();
 

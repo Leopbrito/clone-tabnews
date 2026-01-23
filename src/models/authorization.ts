@@ -1,4 +1,4 @@
-import { Feature } from "enums/feature.enum";
+import { Feature } from "src/enums/feature.enum";
 
 export class Authorization {
   static can(user, feature, resource?) {

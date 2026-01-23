@@ -1,8 +1,8 @@
-import { Session } from "models/session";
+import { Session } from "src/models/session";
 import { Orchestrator } from "tests/orchestrator";
 import { version as uuidVersion } from "uuid";
 import setCookieParser from "set-cookie-parser";
-import { Feature } from "enums/feature.enum";
+import { Feature } from "src/enums/feature.enum";
 
 beforeAll(async () => {
   await Orchestrator.waitForAllServices();

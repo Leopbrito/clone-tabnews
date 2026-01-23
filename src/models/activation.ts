@@ -1,10 +1,10 @@
 import { Email } from "infra/email";
 import { ForbiddenError, NotFoundError } from "infra/errors";
 import { WebServer } from "infra/webserver";
-import { User } from "models/user";
-import { Authorization } from "./authorization";
-import { ActivationRepository } from "repository/activation.repository";
-import { Feature } from "enums/feature.enum";
+import { User } from "src/models/user";
+import { Authorization } from "src/models/authorization";
+import { ActivationRepository } from "src/repository/activation.repository";
+import { Feature } from "src/enums/feature.enum";
 
 const activationEmailTemplate = (username: string, activationToken: string) => {
   return `${username}, clique no link abaixo para ativar sua conta:

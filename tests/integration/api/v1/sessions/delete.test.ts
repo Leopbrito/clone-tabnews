@@ -1,4 +1,4 @@
-import { Session } from "models/session";
+import { Session } from "src/models/session";
 import { Orchestrator } from "tests/orchestrator";
 import setCookieParser from "set-cookie-parser";
 

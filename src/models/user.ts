@@ -1,7 +1,7 @@
-import { Feature } from "enums/feature.enum";
+import { Feature } from "src/enums/feature.enum";
 import { NotFoundError, ValidationError } from "infra/errors";
-import { Password } from "models/password";
-import { UserRepository } from "repository/user.repository";
+import { Password } from "src/models/password";
+import { UserRepository } from "src/repository/user.repository";
 
 export class User {
   static async validateUniqueFields(userInputValues) {

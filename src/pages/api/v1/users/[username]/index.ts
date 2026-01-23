@@ -5,9 +5,9 @@ import {
   onNoMatchHandler,
 } from "infra/controller";
 import { createRouter } from "next-connect";
-import { User } from "models/user";
-import { Feature } from "enums/feature.enum";
-import { Authorization } from "models/authorization";
+import { User } from "src/models/user";
+import { Feature } from "src/enums/feature.enum";
+import { Authorization } from "src/models/authorization";
 import { ForbiddenError } from "infra/errors";
 
 const router = createRouter();

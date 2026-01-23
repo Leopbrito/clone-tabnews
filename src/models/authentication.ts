@@ -1,5 +1,5 @@
-import { User } from "models/user";
-import { Password } from "models/password";
+import { User } from "src/models/user";
+import { Password } from "src/models/password";
 import { NotFoundError, UnauthorizedError } from "infra/errors";
 
 export class Authentication {

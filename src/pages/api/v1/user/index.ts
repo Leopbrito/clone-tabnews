@@ -6,9 +6,9 @@ import {
   setSessionCookie,
 } from "infra/controller";
 import { createRouter } from "next-connect";
-import { Session } from "models/session";
-import { User } from "models/user";
-import { Feature } from "enums/feature.enum";
+import { Session } from "src/models/session";
+import { User } from "src/models/user";
+import { Feature } from "src/enums/feature.enum";
 
 const router = createRouter();
 

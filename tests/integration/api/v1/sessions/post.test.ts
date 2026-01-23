@@ -1,6 +1,6 @@
 import { Orchestrator } from "tests/orchestrator";
 import { version as uuidVersion } from "uuid";
-import { Session } from "models/session";
+import { Session } from "src/models/session";
 import setCookieParser from "set-cookie-parser";
 
 beforeAll(async () => {
