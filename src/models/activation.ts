@@ -32,7 +32,7 @@ export class Activation {
   static async activateUserByUserId(userId) {
     const userToActivate = await User.findOneById(userId);
 
-    if (!Authorization.can(userToActivate, Feature.READ_ACTIVATION_TOTEN)) {
+    if (!Authorization.can(userToActivate, Feature.READ_ACTIVATION_TOKEN)) {
       throw new ForbiddenError();
     }
 

@@ -1,28 +1,35 @@
-import { onErrorHandler, onNoMatchHandler } from "infra/controller";
+import { canRequest, injecAnonymousOrUser, onErrorHandler, onNoMatchHandler } from "infra/controller";
 import { Migrator } from "src/models/migrator";
 import { createRouter } from "next-connect";
+import { Feature } from "src/enums/feature.enum";
+import { Authorization } from "src/models/authorization";
 
 const router = createRouter();
 
-router.get(getHandler);
-router.post(postHandler);
+router.use(injecAnonymousOrUser);
+router.get(canRequest(Feature.READ_MIGRATION), getHandler);
+router.post(canRequest(Feature.CREATE_MIGRATION), postHandler);
 
 export default router.handler({
   onNoMatch: onNoMatchHandler,
   onError: onErrorHandler,
 });
 
-async function getHandler(req, res) {
+async function getHandler(request, response) {
+  const { user } = request.context;
   const pendingMigrations = await Migrator.listPendingMigrations();
-  return res.status(200).json(pendingMigrations);
+
+  const secureOutputValues = Authorization.filterOutput(user, Feature.READ_MIGRATION, pendingMigrations);
+  return response.status(200).json(secureOutputValues);
 }
 
-async function postHandler(req, res) {
+async function postHandler(request, response) {
+  const { user } = request.context;
+
   const migratedMigrations = await Migrator.runPendingMigrations();
+  const statusCode = migratedMigrations.length > 0 ? 201 : 200;
 
-  if (migratedMigrations.length > 0) {
-    return res.status(201).json(migratedMigrations);
-  }
+  const secureOutputValues = Authorization.filterOutput(user, Feature.READ_MIGRATION, migratedMigrations);
 
-  return res.status(200).json(migratedMigrations);
+  return response.status(statusCode).json(secureOutputValues);
 }

@@ -9,6 +9,7 @@ import { createRouter } from "next-connect";
 import { Session } from "src/models/session";
 import { User } from "src/models/user";
 import { Feature } from "src/enums/feature.enum";
+import { Authorization } from "src/models/authorization";
 
 const router = createRouter();
 
@@ -21,6 +22,7 @@ export default router.handler({
 });
 
 async function getHandler(request, response) {
+  const userTryingToGet = request.context.user;
   const sessionToken = request.cookies.session_id;
   const sessionObject = await Session.findOneValidByToken(sessionToken);
   const renewedSessionObject = await Session.renew(sessionObject.id);
@@ -31,5 +33,12 @@ async function getHandler(request, response) {
   );
 
   const userFound = await User.findOneById(renewedSessionObject.user_id);
-  return response.status(200).json(userFound);
+
+  const secureOutputValues = Authorization.filterOutput(
+    userTryingToGet,
+    Feature.READ_USER_SELF,
+    userFound,
+  );
+
+  return response.status(200).json(secureOutputValues);
 }

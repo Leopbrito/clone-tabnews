@@ -33,7 +33,7 @@ export class User {
     return newUser;
 
     function injectDefaultFeaturesInObject(userInputValues) {
-      userInputValues.features = [Feature.READ_ACTIVATION_TOTEN];
+      userInputValues.features = [Feature.READ_ACTIVATION_TOKEN];
     }
   }
 

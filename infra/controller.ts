@@ -18,11 +18,7 @@ export function onNoMatchHandler(request, response) {
 }
 
 export function onErrorHandler(error, request, response) {
-  if (
-    error instanceof ValidationError ||
-    error instanceof NotFoundError ||
-    error instanceof ForbiddenError
-  ) {
+  if (error instanceof ValidationError || error instanceof NotFoundError || error instanceof ForbiddenError) {
     return response.status(error.statusCode).json(error);
   }
 
@@ -79,11 +75,7 @@ async function injectAuthenticatedUser(request) {
 
 function injectAnonymousUser(request) {
   const anonymousUserObject = {
-    features: [
-      Feature.READ_ACTIVATION_TOTEN,
-      Feature.CREATE_SESSION,
-      Feature.CREATE_USER,
-    ],
+    features: [Feature.READ_ACTIVATION_TOKEN, Feature.CREATE_SESSION, Feature.CREATE_USER],
   };
   request.context = {
     ...request.context,
@@ -93,6 +85,7 @@ function injectAnonymousUser(request) {
 
 export function canRequest(feature: Feature) {
   return function canRequestMiddleware(request, response, next) {
+    // console.log("aqui", request);
     const userTryingToRequest = request.context.user;
 
     if (Authorization.can(userTryingToRequest, feature)) {

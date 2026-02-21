@@ -53,9 +53,7 @@ export class Orchestrator {
 
   static async createUser(userInputValues?) {
     return await User.create({
-      username:
-        userInputValues?.username ||
-        faker.internet.username().replace(/[_.-]/g, ""),
+      username: userInputValues?.username || faker.internet.username().replace(/[_.-]/g, ""),
       email: userInputValues?.email || faker.internet.email(),
       password: userInputValues?.password || "defaultPassword",
     });
@@ -63,6 +61,15 @@ export class Orchestrator {
 
   static async createSession(user) {
     return await Session.create(user.id);
+  }
+
+  static async createSessionFromActivatedUser(options: { userFeatures?: Feature[] } = {}) {
+    const createdUser = await this.createUser();
+    const activatedUser = await this.activateUser(createdUser);
+    if (options.userFeatures) {
+      this.addFeaturesToUser(activatedUser, options.userFeatures);
+    }
+    return await this.createSession(activatedUser);
   }
 
   static async addFeaturesToUser(user, features: Feature[]) {
@@ -86,9 +93,7 @@ export class Orchestrator {
     if (!lastEmailItem) {
       return null;
     }
-    const lastEmailTextResponse = await fetch(
-      `${EMAIL_HTTP_URL}/messages/${lastEmailItem.id}.plain`,
-    );
+    const lastEmailTextResponse = await fetch(`${EMAIL_HTTP_URL}/messages/${lastEmailItem.id}.plain`);
     const lastEmailTextBody = await lastEmailTextResponse.text();
     return {
       ...lastEmailItem,

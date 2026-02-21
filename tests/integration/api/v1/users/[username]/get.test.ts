@@ -25,7 +25,7 @@ describe("GET /api/v1/users/[username]", () => {
       expect(responseBody).toEqual({
         id: responseBody.id,
         username: "CaseMatch",
-        features: [Feature.READ_ACTIVATION_TOTEN],
+        features: [Feature.READ_ACTIVATION_TOKEN],
         created_at: responseBody.created_at,
         updated_at: responseBody.updated_at,
       });
@@ -51,7 +51,7 @@ describe("GET /api/v1/users/[username]", () => {
       expect(responseBody).toEqual({
         id: responseBody.id,
         username: "CaseMismatch",
-        features: [Feature.READ_ACTIVATION_TOTEN],
+        features: [Feature.READ_ACTIVATION_TOKEN],
         created_at: responseBody.created_at,
         updated_at: responseBody.updated_at,
       });
