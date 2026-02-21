@@ -21,4 +21,17 @@ export class Authorization {
 
     return authorized;
   }
+
+  static filterOutput(user, feature, output) {
+    if (feature === Feature.READ_USER) {
+      return {
+        id: output.id,
+        username: output.username,
+        features: output.features,
+        created_at: output.created_at,
+        updated_at: output.updated_at,
+      };
+    }
+    return {};
+  }
 }
