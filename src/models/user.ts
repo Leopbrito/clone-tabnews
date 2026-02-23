@@ -6,15 +6,11 @@ import { UserRepository } from "src/repository/user.repository";
 export class User {
   static async validateUniqueFields(userInputValues) {
     const { username = "", email = "" } = userInputValues;
-    const userFound = await UserRepository.findOneByUsernameOrEmail(
-      username,
-      email,
-    );
+    const userFound = await UserRepository.findOneByUsernameOrEmail(username, email);
     if (userFound) {
       throw new ValidationError({
         message: "'username' ou 'email' já cadastrado ou invalidos",
-        action:
-          "Utilize outro 'username' ou 'email' para realizar está operação.",
+        action: "Utilize outro 'username' ou 'email' para realizar está operação.",
       });
     }
   }

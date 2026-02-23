@@ -41,14 +41,8 @@ describe("POST /api/v1/users", () => {
       expect(Date.parse(responseBody.updated_at)).not.toBeNaN();
 
       const userInDatabase = await User.findOneByUsername("validUser");
-      const correctPasswordMatch = await Password.compare(
-        "defaultPassword",
-        userInDatabase.password,
-      );
-      const incorrectPasswordMatch = await Password.compare(
-        "wrongPassword",
-        userInDatabase.password,
-      );
+      const correctPasswordMatch = await Password.compare("defaultPassword", userInDatabase.password);
+      const incorrectPasswordMatch = await Password.compare("wrongPassword", userInDatabase.password);
       expect(correctPasswordMatch).toBe(true);
       expect(incorrectPasswordMatch).toBe(false);
     });
@@ -76,8 +70,7 @@ describe("POST /api/v1/users", () => {
       expect(responseBody).toEqual({
         name: "ValidationError",
         message: "'username' ou 'email' já cadastrado ou invalidos",
-        action:
-          "Utilize outro 'username' ou 'email' para realizar está operação.",
+        action: "Utilize outro 'username' ou 'email' para realizar está operação.",
         status_code: 400,
       });
     });
@@ -105,8 +98,7 @@ describe("POST /api/v1/users", () => {
       expect(responseBody).toEqual({
         name: "ValidationError",
         message: "'username' ou 'email' já cadastrado ou invalidos",
-        action:
-          "Utilize outro 'username' ou 'email' para realizar está operação.",
+        action: "Utilize outro 'username' ou 'email' para realizar está operação.",
         status_code: 400,
       });
     });

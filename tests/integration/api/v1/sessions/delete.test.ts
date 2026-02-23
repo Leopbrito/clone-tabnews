@@ -118,12 +118,8 @@ describe("DELETE /api/v1/sessions", () => {
         httpOnly: true,
       });
 
-      expect(
-        response1Body.expires_at < sessionObject.expires_at.toISOString(),
-      ).toBe(true);
-      expect(
-        response1Body.updated_at > sessionObject.updated_at.toISOString(),
-      ).toBe(true);
+      expect(response1Body.expires_at < sessionObject.expires_at.toISOString()).toBe(true);
+      expect(response1Body.updated_at > sessionObject.updated_at.toISOString()).toBe(true);
 
       const response2 = await fetch("http://localhost:3000/api/v1/sessions", {
         method: "DELETE",

@@ -1,9 +1,4 @@
-import {
-  canRequest,
-  injecAnonymousOrUser,
-  onErrorHandler,
-  onNoMatchHandler,
-} from "infra/controller";
+import { canRequest, injecAnonymousOrUser, onErrorHandler, onNoMatchHandler } from "infra/controller";
 import { createRouter } from "next-connect";
 import { Activation } from "src/models/activation";
 import { Feature } from "src/enums/feature.enum";
@@ -29,11 +24,7 @@ async function patchHandler(request, response) {
 
   const usedActivationTokenObject = await Activation.markTokenAsUsed(token);
 
-  const secureOutputValues = Authorization.filterOutput(
-    user,
-    Feature.READ_ACTIVATION_TOKEN,
-    usedActivationTokenObject,
-  );
+  const secureOutputValues = Authorization.filterOutput(user, Feature.READ_ACTIVATION_TOKEN, usedActivationTokenObject);
 
   return response.status(200).json(secureOutputValues);
 }

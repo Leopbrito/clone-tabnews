@@ -42,9 +42,7 @@ describe("GET /api/v1/user", () => {
       expect(response.status).toBe(200);
 
       const cacheControl = response.headers.get("Cache-Control");
-      expect(cacheControl).toBe(
-        "no-store, no-cache, max-age=0, must-revalidate",
-      );
+      expect(cacheControl).toBe("no-store, no-cache, max-age=0, must-revalidate");
 
       const responseBody = await response.json();
 
@@ -52,11 +50,7 @@ describe("GET /api/v1/user", () => {
         id: createdUser.id,
         username: "UserWithValidSession",
         email: createdUser.email,
-        features: [
-          Feature.CREATE_SESSION,
-          Feature.READ_SESSION,
-          Feature.UPDATE_USER,
-        ],
+        features: [Feature.CREATE_SESSION, Feature.READ_SESSION, Feature.UPDATE_USER],
         created_at: createdUser.created_at.toISOString(),
         updated_at: activatedUser.updated_at.toISOString(),
       });
@@ -65,16 +59,10 @@ describe("GET /api/v1/user", () => {
       expect(Date.parse(responseBody.created_at)).not.toBeNaN();
       expect(Date.parse(responseBody.updated_at)).not.toBeNaN();
 
-      const renewedSessionObject = await Session.findOneValidByToken(
-        sessionObject.token,
-      );
+      const renewedSessionObject = await Session.findOneValidByToken(sessionObject.token);
 
-      expect(renewedSessionObject.expires_at > sessionObject.expires_at).toBe(
-        true,
-      );
-      expect(renewedSessionObject.updated_at > sessionObject.updated_at).toBe(
-        true,
-      );
+      expect(renewedSessionObject.expires_at > sessionObject.expires_at).toBe(true);
+      expect(renewedSessionObject.updated_at > sessionObject.updated_at).toBe(true);
 
       const parsedSetCookies = setCookieParser(response, { map: true });
       expect(parsedSetCookies.session_id).toEqual({

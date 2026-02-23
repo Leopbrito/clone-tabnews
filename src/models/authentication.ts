@@ -35,10 +35,7 @@ export class Authentication {
     }
 
     async function validatePassword(providedPassword, storedPassword) {
-      const correctPasswordMatch = await Password.compare(
-        providedPassword,
-        storedPassword,
-      );
+      const correctPasswordMatch = await Password.compare(providedPassword, storedPassword);
 
       if (!correctPasswordMatch) {
         throw new UnauthorizedError({

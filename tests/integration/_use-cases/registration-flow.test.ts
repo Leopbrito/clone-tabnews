@@ -16,20 +16,17 @@ describe("Use case: Registration Flow (all successful)", () => {
   let activationTokenId;
   let createSessionResponseBody;
   test("create user account", async () => {
-    const createUserResponse = await fetch(
-      "http://localhost:3000/api/v1/users",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: "RegistrationFlowUser",
-          email: "registration.flow@test.com",
-          password: "RegistrationFlowPassword",
-        }),
+    const createUserResponse = await fetch("http://localhost:3000/api/v1/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify({
+        username: "RegistrationFlowUser",
+        email: "registration.flow@test.com",
+        password: "RegistrationFlowPassword",
+      }),
+    });
     expect(createUserResponse.status).toBe(201);
 
     createUserResponseBody = await createUserResponse.json();
@@ -58,24 +55,18 @@ describe("Use case: Registration Flow (all successful)", () => {
       text: lastEmail.text,
     });
     expect(lastEmail.text).toContain("RegistrationFlowUser");
-    expect(lastEmail.text).toContain(
-      `${WebServer.origin}/cadastro/ativar/${activationTokenId}`,
-    );
+    expect(lastEmail.text).toContain(`${WebServer.origin}/cadastro/ativar/${activationTokenId}`);
 
-    const activationTokenObject =
-      await Activation.findOneValidById(activationTokenId);
+    const activationTokenObject = await Activation.findOneValidById(activationTokenId);
 
     expect(activationTokenObject.user_id).toBe(createUserResponseBody.id);
     expect(activationTokenObject.used_at).toBe(null);
   });
 
   test("Activate account", async () => {
-    const activationResponse = await fetch(
-      `http://localhost:3000/api/v1/activations/${activationTokenId}`,
-      {
-        method: "PATCH",
-      },
-    );
+    const activationResponse = await fetch(`http://localhost:3000/api/v1/activations/${activationTokenId}`, {
+      method: "PATCH",
+    });
 
     console.log(activationTokenId);
 
@@ -85,27 +76,20 @@ describe("Use case: Registration Flow (all successful)", () => {
     expect(Date.parse(activationResponseBody.used_at)).not.toBeNaN();
 
     const activatedUser = await User.findOneByUsername("RegistrationFlowUser");
-    expect(activatedUser.features).toEqual([
-      Feature.CREATE_SESSION,
-      Feature.READ_SESSION,
-      Feature.UPDATE_USER,
-    ]);
+    expect(activatedUser.features).toEqual([Feature.CREATE_SESSION, Feature.READ_SESSION, Feature.UPDATE_USER]);
   });
 
   test("Login", async () => {
-    const createSessionResponse = await fetch(
-      "http://localhost:3000/api/v1/sessions",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: "registration.flow@test.com",
-          password: "RegistrationFlowPassword",
-        }),
+    const createSessionResponse = await fetch("http://localhost:3000/api/v1/sessions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify({
+        email: "registration.flow@test.com",
+        password: "RegistrationFlowPassword",
+      }),
+    });
     expect(createSessionResponse.status).toBe(201);
 
     createSessionResponseBody = await createSessionResponse.json();

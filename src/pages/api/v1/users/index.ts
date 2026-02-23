@@ -1,9 +1,4 @@
-import {
-  canRequest,
-  injecAnonymousOrUser,
-  onErrorHandler,
-  onNoMatchHandler,
-} from "infra/controller";
+import { canRequest, injecAnonymousOrUser, onErrorHandler, onNoMatchHandler } from "infra/controller";
 import { createRouter } from "next-connect";
 import { User } from "src/models/user";
 import { Activation } from "src/models/activation";
@@ -27,11 +22,7 @@ async function postHandler(request, response) {
   const activationToken = await Activation.create(newUser.id);
   await Activation.sendEmailToUser(newUser, activationToken);
 
-  const secureOutputValues = Authorization.filterOutput(
-    userTryingToPost,
-    Feature.READ_USER,
-    newUser,
-  );
+  const secureOutputValues = Authorization.filterOutput(userTryingToPost, Feature.READ_USER, newUser);
 
   return response.status(201).json(secureOutputValues);
 }

@@ -27,10 +27,7 @@ export default router.handler({
 async function postHandler(request, response) {
   const userInputValues = request.body;
 
-  const authenticatedUser = await Authentication.getAuthenticatedUser(
-    userInputValues.email,
-    userInputValues.password,
-  );
+  const authenticatedUser = await Authentication.getAuthenticatedUser(userInputValues.email, userInputValues.password);
 
   if (!Authorization.can(authenticatedUser, Feature.CREATE_SESSION)) {
     throw new ForbiddenError();
@@ -40,11 +37,7 @@ async function postHandler(request, response) {
 
   setSessionCookie(response, newSession.token);
 
-  const secureOutputValues = Authorization.filterOutput(
-    authenticatedUser,
-    Feature.READ_SESSION,
-    newSession,
-  );
+  const secureOutputValues = Authorization.filterOutput(authenticatedUser, Feature.READ_SESSION, newSession);
 
   return response.status(201).json(secureOutputValues);
 }
@@ -56,10 +49,6 @@ async function deleteHandler(request, response) {
   const invalidatedSession = await Session.expireById(sessionObject.id);
   clearSessionCookie(response);
 
-  const secureOutputValues = Authorization.filterOutput(
-    userTryingToDelete,
-    Feature.READ_SESSION,
-    invalidatedSession,
-  );
+  const secureOutputValues = Authorization.filterOutput(userTryingToDelete, Feature.READ_SESSION, invalidatedSession);
   return response.status(200).json(secureOutputValues);
 }

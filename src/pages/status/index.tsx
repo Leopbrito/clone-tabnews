@@ -23,12 +23,7 @@ function UpdatedAt() {
 
   return (
     <>
-      <div>
-        Ultima atualização:{" "}
-        {isLoading
-          ? "Carregando"
-          : new Date(data.updated_at).toLocaleString("pt-BR")}
-      </div>
+      <div>Ultima atualização: {isLoading ? "Carregando" : new Date(data.updated_at).toLocaleString("pt-BR")}</div>
     </>
   );
 }

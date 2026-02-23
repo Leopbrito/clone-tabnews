@@ -24,8 +24,7 @@ export class Activation {
   }
 
   static async markTokenAsUsed(tokenId) {
-    const activationToken =
-      await ActivationRepository.updateTokenAsUsed(tokenId);
+    const activationToken = await ActivationRepository.updateTokenAsUsed(tokenId);
     return activationToken;
   }
 
@@ -45,8 +44,7 @@ export class Activation {
   }
 
   static async findOneValidById(activationId) {
-    const activationTokenFound =
-      await ActivationRepository.findOneValidById(activationId);
+    const activationTokenFound = await ActivationRepository.findOneValidById(activationId);
     if (!activationTokenFound) {
       throw new NotFoundError({
         message: "O id informado não foi encontrado no sistema.",

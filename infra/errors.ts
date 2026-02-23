@@ -77,11 +77,9 @@ export class ValidationError extends BaseError {
 export class NotFoundError extends BaseError {
   constructor(error?: { message?: string; action?: string }) {
     super({
-      message:
-        error?.message || "Não foi possivel encontrar esse recurso no sistema",
+      message: error?.message || "Não foi possivel encontrar esse recurso no sistema",
       name: "NotFoundError",
-      action:
-        error?.action || "Verifique se os parametros do recurso estão corretos",
+      action: error?.action || "Verifique se os parametros do recurso estão corretos",
       statusCode: 404,
     });
   }
@@ -103,9 +101,7 @@ export class ForbiddenError extends BaseError {
     super({
       message: error?.message || "Usuario sem permisão.",
       name: "ForbiddenError",
-      action:
-        error?.action ||
-        "Verifique se voce tem permisão de acesso a esse recurso.",
+      action: error?.action || "Verifique se voce tem permisão de acesso a esse recurso.",
       statusCode: 403,
     });
   }

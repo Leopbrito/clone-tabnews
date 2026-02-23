@@ -21,8 +21,7 @@ export class Session {
   }
 
   static async findOneValidByToken(sessionToken) {
-    const sessionFound =
-      await SessionRepository.findOneValidByToken(sessionToken);
+    const sessionFound = await SessionRepository.findOneValidByToken(sessionToken);
 
     if (!sessionFound) {
       throw new UnauthorizedError({

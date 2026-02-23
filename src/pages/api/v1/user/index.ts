@@ -1,10 +1,4 @@
-import {
-  canRequest,
-  injecAnonymousOrUser,
-  onErrorHandler,
-  onNoMatchHandler,
-  setSessionCookie,
-} from "infra/controller";
+import { canRequest, injecAnonymousOrUser, onErrorHandler, onNoMatchHandler, setSessionCookie } from "infra/controller";
 import { createRouter } from "next-connect";
 import { Session } from "src/models/session";
 import { User } from "src/models/user";
@@ -27,18 +21,11 @@ async function getHandler(request, response) {
   const sessionObject = await Session.findOneValidByToken(sessionToken);
   const renewedSessionObject = await Session.renew(sessionObject.id);
   setSessionCookie(response, renewedSessionObject.token);
-  response.setHeader(
-    "Cache-Control",
-    "no-store, no-cache, max-age=0, must-revalidate",
-  );
+  response.setHeader("Cache-Control", "no-store, no-cache, max-age=0, must-revalidate");
 
   const userFound = await User.findOneById(renewedSessionObject.user_id);
 
-  const secureOutputValues = Authorization.filterOutput(
-    userTryingToGet,
-    Feature.READ_USER_SELF,
-    userFound,
-  );
+  const secureOutputValues = Authorization.filterOutput(userTryingToGet, Feature.READ_USER_SELF, userFound);
 
   return response.status(200).json(secureOutputValues);
 }

@@ -15,9 +15,7 @@ describe("GET /api/v1/users/[username]", () => {
         username: "CaseMatch",
       });
 
-      const response = await fetch(
-        "http://localhost:3000/api/v1/users/CaseMatch",
-      );
+      const response = await fetch("http://localhost:3000/api/v1/users/CaseMatch");
       expect(response.status).toBe(200);
 
       const responseBody = await response.json();
@@ -40,9 +38,7 @@ describe("GET /api/v1/users/[username]", () => {
         username: "CaseMismatch",
       });
 
-      const response = await fetch(
-        "http://localhost:3000/api/v1/users/casemismatch",
-      );
+      const response = await fetch("http://localhost:3000/api/v1/users/casemismatch");
 
       expect(response.status).toBe(200);
 
@@ -62,9 +58,7 @@ describe("GET /api/v1/users/[username]", () => {
     });
 
     test("With no existent user", async () => {
-      const response = await fetch(
-        "http://localhost:3000/api/v1/users/InexistentUser",
-      );
+      const response = await fetch("http://localhost:3000/api/v1/users/InexistentUser");
       expect(response.status).toBe(404);
 
       const responseBody = await response.json();
