@@ -51,14 +51,26 @@ export class MethodNotAllowedError extends BaseError {
 }
 
 export class ServiceError extends BaseError {
-  constructor(error?: { cause?: string; message?: string }) {
+  context: string;
+  constructor(error?: { cause?: string; message?: string; action?: string; context?: string }) {
     super({
       message: error?.message || "Um erro interno não esperado aconteceu",
       name: "ServiceError",
-      action: "Verifique se o serviço está disponivel.",
+      action: error?.action || "Verifique se o serviço está disponivel.",
       statusCode: 503,
       cause: error?.cause,
     });
+    this.context = error?.context;
+  }
+
+  toJSON() {
+    return {
+      name: this.name,
+      message: this.message,
+      action: this.action,
+      status_code: this.statusCode,
+      context: this.context,
+    };
   }
 }
 
