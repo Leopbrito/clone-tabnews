@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Repositorio para praticar as aulas do curso.dev",
   "main": "index.js",
+  "engines": {
+    "node": "24"
+  },
   "scripts": {
     "dev": "npm run services:up && npm run services:wait:database && npm run migrations:up && next dev; npm run services:down",
     "test": "npm run services:up && concurrently -n next,jest --hide next -k -s command-jest \"next dev\" \"jest --runInBand\"; npm run services:down",
