@@ -1,7 +1,11 @@
+import { InternalServerError } from "infra/errors";
 import { Feature } from "src/enums/feature.enum";
 
 export class Authorization {
   static can(user, feature, resource?) {
+    this.validateUser(user);
+    this.validateFeature(feature);
+
     let authorized = false;
 
     if (user.features.includes(feature)) {
@@ -20,6 +24,10 @@ export class Authorization {
   }
 
   static filterOutput(user, feature, resource) {
+    this.validateUser(user);
+    this.validateFeature(feature);
+    this.validateResource(resource);
+
     if (feature === Feature.READ_USER) {
       return {
         id: resource.id,
@@ -88,6 +96,30 @@ export class Authorization {
           },
         },
       };
+    }
+  }
+
+  private static validateUser(user) {
+    if (!user || !user.features) {
+      throw new InternalServerError({
+        cause: "é necessario fornecer `user` no model `authorization`",
+      });
+    }
+  }
+
+  private static validateFeature(feature) {
+    if (!feature || !Object.values(Feature).includes(feature)) {
+      throw new InternalServerError({
+        cause: "é necessario informa uma feature conhecida",
+      });
+    }
+  }
+
+  private static validateResource(resource) {
+    if (!resource) {
+      throw new InternalServerError({
+        cause: "é necessario informa um resouce",
+      });
     }
   }
 }
