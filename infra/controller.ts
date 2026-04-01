@@ -85,7 +85,6 @@ function injectAnonymousUser(request) {
 
 export function canRequest(feature: Feature) {
   return function canRequestMiddleware(request, response, next) {
-    // console.log("aqui", request);
     const userTryingToRequest = request.context.user;
 
     if (Authorization.can(userTryingToRequest, feature)) {
