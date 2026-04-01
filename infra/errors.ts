@@ -34,7 +34,7 @@ export class InternalServerError extends BaseError {
       name: "InternalServerError",
       action: "Entre em contato com o suporte.",
       statusCode: 500,
-      cause: error.cause,
+      cause: error?.cause,
     });
   }
 }
