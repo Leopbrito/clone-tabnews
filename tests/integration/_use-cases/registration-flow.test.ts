@@ -47,7 +47,7 @@ describe("Use case: Registration Flow (all successful)", () => {
 
     expect(lastEmail).toEqual({
       id: lastEmail.id,
-      sender: "<contato@tabnews.com.br>",
+      sender: "<contato@leopbrito.com.br>",
       recipients: ["<registration.flow@test.com>"],
       subject: "Email de Ativação",
       size: lastEmail.size,

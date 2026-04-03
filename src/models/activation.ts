@@ -56,7 +56,7 @@ export class Activation {
 
   static async sendEmailToUser(user, activationToken) {
     await Email.send({
-      from: "<contato@tabnews.com.br>",
+      from: "<contato@leopbrito.com.br>",
       to: `${user.email}`,
       subject: "Email de Ativação",
       text: activationEmailTemplate(user.username, activationToken.id),
