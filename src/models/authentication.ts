@@ -3,7 +3,7 @@ import { Password } from "src/models/password";
 import { NotFoundError, UnauthorizedError } from "infra/errors";
 
 export class Authentication {
-  static async getAuthenticatedUser(providedEmail, providedPassword) {
+  static async getUser(providedEmail, providedPassword) {
     try {
       const storedUser = await findUserByEmail(providedEmail);
       await validatePassword(providedPassword, storedUser.password);
