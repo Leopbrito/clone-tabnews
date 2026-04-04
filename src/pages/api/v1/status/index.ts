@@ -4,15 +4,10 @@ import { injecAnonymousOrUser, onErrorHandler, onNoMatchHandler } from "infra/co
 import { Authorization } from "src/models/authorization";
 import { Feature } from "src/enums/feature.enum";
 
-const router = createRouter();
-
-router.use(injecAnonymousOrUser);
-router.get(getHandler);
-
-export default router.handler({
-  onNoMatch: onNoMatchHandler,
-  onError: onErrorHandler,
-});
+export default createRouter()
+  .use(injecAnonymousOrUser)
+  .get(getHandler)
+  .handler({ onNoMatch: onNoMatchHandler, onError: onErrorHandler });
 
 async function getHandler(request, response) {
   const { user } = request.context;

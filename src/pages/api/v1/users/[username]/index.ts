@@ -5,15 +5,11 @@ import { Feature } from "src/enums/feature.enum";
 import { Authorization } from "src/models/authorization";
 import { ForbiddenError } from "infra/errors";
 
-const router = createRouter();
-router.use(injecAnonymousOrUser);
-router.get(getHandler);
-router.patch(canRequest(Feature.UPDATE_USER), patchHandler);
-
-export default router.handler({
-  onNoMatch: onNoMatchHandler,
-  onError: onErrorHandler,
-});
+export default createRouter()
+  .use(injecAnonymousOrUser)
+  .get(getHandler)
+  .patch(canRequest(Feature.UPDATE_USER), patchHandler)
+  .handler({ onNoMatch: onNoMatchHandler, onError: onErrorHandler });
 
 async function getHandler(request, response) {
   const userTryingToGet = request.context.user;

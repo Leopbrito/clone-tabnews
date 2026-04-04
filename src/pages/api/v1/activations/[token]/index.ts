@@ -4,15 +4,10 @@ import { Activation } from "src/models/activation";
 import { Feature } from "src/enums/feature.enum";
 import { Authorization } from "src/models/authorization";
 
-const router = createRouter();
-
-router.use(injecAnonymousOrUser);
-router.patch(canRequest(Feature.READ_ACTIVATION_TOKEN), patchHandler);
-
-export default router.handler({
-  onNoMatch: onNoMatchHandler,
-  onError: onErrorHandler,
-});
+export default createRouter()
+  .use(injecAnonymousOrUser)
+  .patch(canRequest(Feature.READ_ACTIVATION_TOKEN), patchHandler)
+  .handler({ onNoMatch: onNoMatchHandler, onError: onErrorHandler });
 
 async function patchHandler(request, response) {
   const { user } = request.context;

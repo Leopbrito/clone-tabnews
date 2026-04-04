@@ -13,16 +13,11 @@ import { Authorization } from "src/models/authorization";
 import { ForbiddenError } from "infra/errors";
 import { Feature } from "src/enums/feature.enum";
 
-const router = createRouter();
-
-router.use(injecAnonymousOrUser);
-router.post(canRequest(Feature.CREATE_SESSION), postHandler);
-router.delete(deleteHandler);
-
-export default router.handler({
-  onNoMatch: onNoMatchHandler,
-  onError: onErrorHandler,
-});
+export default createRouter()
+  .use(injecAnonymousOrUser)
+  .post(canRequest(Feature.CREATE_SESSION), postHandler)
+  .delete(deleteHandler)
+  .handler({ onNoMatch: onNoMatchHandler, onError: onErrorHandler });
 
 async function postHandler(request, response) {
   const userInputValues = request.body;
