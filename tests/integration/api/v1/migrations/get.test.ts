@@ -1,5 +1,6 @@
-import { Feature } from "src/enums/feature.enum";
-import { Orchestrator } from "tests/orchestrator";
+import { WebServer } from "@infra/webserver";
+import { Feature } from "@enums/feature.enum";
+import { Orchestrator } from "@tests/orchestrator";
 
 beforeAll(async () => {
   await Orchestrator.waitForAllServices();
@@ -10,7 +11,7 @@ beforeAll(async () => {
 describe("GET /api/v1/migrations", () => {
   describe("Anonymous user", () => {
     test("Retrieving pendings migrations", async () => {
-      const response = await fetch("http://localhost:3000/api/v1/migrations");
+      const response = await fetch(`${WebServer.origin}/api/v1/migrations`);
       expect(response.status).toBe(403);
 
       const responseBody = await response.json();
@@ -27,7 +28,7 @@ describe("GET /api/v1/migrations", () => {
   describe("Default user", () => {
     test("Retrieving pendings migrations", async () => {
       const sessionObject = await Orchestrator.createSessionFromActivatedUser();
-      const response = await fetch("http://localhost:3000/api/v1/migrations", {
+      const response = await fetch(`${WebServer.origin}/api/v1/migrations`, {
         headers: {
           Cookie: `session_id=${sessionObject.token}`,
         },
@@ -51,7 +52,7 @@ describe("GET /api/v1/migrations", () => {
       const activatedUser = await Orchestrator.activateUser(createdUser);
       await Orchestrator.addFeaturesToUser(activatedUser, [Feature.READ_MIGRATION]);
       const sessionObject = await Orchestrator.createSession(activatedUser);
-      const response = await fetch("http://localhost:3000/api/v1/migrations", {
+      const response = await fetch(`${WebServer.origin}/api/v1/migrations`, {
         headers: {
           Cookie: `session_id=${sessionObject.token}`,
         },

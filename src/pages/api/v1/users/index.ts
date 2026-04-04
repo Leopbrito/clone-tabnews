@@ -1,19 +1,14 @@
-import { canRequest, injecAnonymousOrUser, onErrorHandler, onNoMatchHandler } from "infra/controller";
+import { canRequest, injecAnonymousOrUser, onErrorHandler, onNoMatchHandler } from "@infra/controller";
 import { createRouter } from "next-connect";
-import { User } from "src/models/user";
-import { Activation } from "src/models/activation";
-import { Feature } from "src/enums/feature.enum";
-import { Authorization } from "src/models/authorization";
+import { User } from "@models/user";
+import { Activation } from "@models/activation";
+import { Feature } from "@enums/feature.enum";
+import { Authorization } from "@models/authorization";
 
-const router = createRouter();
-
-router.use(injecAnonymousOrUser);
-router.post(canRequest(Feature.CREATE_USER), postHandler);
-
-export default router.handler({
-  onNoMatch: onNoMatchHandler,
-  onError: onErrorHandler,
-});
+export default createRouter()
+  .use(injecAnonymousOrUser)
+  .post(canRequest(Feature.CREATE_USER), postHandler)
+  .handler({ onNoMatch: onNoMatchHandler, onError: onErrorHandler });
 
 async function postHandler(request, response) {
   const userTryingToPost = request.context.user;

@@ -51,7 +51,7 @@ export class MethodNotAllowedError extends BaseError {
 }
 
 export class ServiceError extends BaseError {
-  context: string;
+  context: string | undefined;
   constructor(error?: { cause?: string; message?: string; action?: string; context?: string }) {
     super({
       message: error?.message || "Um erro interno não esperado aconteceu",

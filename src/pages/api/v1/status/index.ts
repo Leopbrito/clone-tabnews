@@ -1,18 +1,13 @@
 import { createRouter } from "next-connect";
-import { Database } from "infra/database";
-import { injecAnonymousOrUser, onErrorHandler, onNoMatchHandler } from "infra/controller";
-import { Authorization } from "src/models/authorization";
-import { Feature } from "src/enums/feature.enum";
+import { Database } from "@infra/database";
+import { injecAnonymousOrUser, onErrorHandler, onNoMatchHandler } from "@infra/controller";
+import { Authorization } from "@models/authorization";
+import { Feature } from "@enums/feature.enum";
 
-const router = createRouter();
-
-router.use(injecAnonymousOrUser);
-router.get(getHandler);
-
-export default router.handler({
-  onNoMatch: onNoMatchHandler,
-  onError: onErrorHandler,
-});
+export default createRouter()
+  .use(injecAnonymousOrUser)
+  .get(getHandler)
+  .handler({ onNoMatch: onNoMatchHandler, onError: onErrorHandler });
 
 async function getHandler(request, response) {
   const { user } = request.context;
@@ -44,5 +39,5 @@ async function getHandler(request, response) {
 
   const secureOutputValues = Authorization.filterOutput(user, Feature.READ_STATUS, statusObject);
 
-  response.status(200).json(secureOutputValues);
+  return response.status(200).json(secureOutputValues);
 }

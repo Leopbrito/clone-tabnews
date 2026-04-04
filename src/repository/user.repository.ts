@@ -1,4 +1,5 @@
-import { Database } from "infra/database";
+import { Feature } from "@enums/feature.enum";
+import { Database } from "@infra/database";
 
 export class UserRepository {
   static async create(user) {
@@ -17,7 +18,7 @@ export class UserRepository {
     return result.rows[0];
   }
 
-  static async findOneById(id) {
+  static async findOneById(id: string) {
     const result = await Database.query({
       text: `
         SELECT  
@@ -34,7 +35,7 @@ export class UserRepository {
     return result.rows[0];
   }
 
-  static async findOneByUsername(username) {
+  static async findOneByUsername(username: string) {
     const result = await Database.query({
       text: `
           SELECT  
@@ -51,7 +52,7 @@ export class UserRepository {
     return result.rows[0];
   }
 
-  static async findOneByEmail(email) {
+  static async findOneByEmail(email: string) {
     const result = await Database.query({
       text: `
           SELECT  
@@ -68,7 +69,7 @@ export class UserRepository {
     return result.rows[0];
   }
 
-  static async findOneByUsernameOrEmail(username, email) {
+  static async findOneByUsernameOrEmail(username: string, email: string) {
     const result = await Database.query({
       text: `
         SELECT
@@ -107,7 +108,7 @@ export class UserRepository {
     return result.rows[0];
   }
 
-  static async updateFeatures(id, features) {
+  static async updateFeatures(id: string, features: Feature[]) {
     const result = await Database.query({
       text: `
         UPDATE 
@@ -125,7 +126,7 @@ export class UserRepository {
     return result.rows[0];
   }
 
-  static async addFeatures(id, features) {
+  static async addFeatures(id: string, features: Feature[]) {
     const result = await Database.query({
       text: `
         UPDATE 

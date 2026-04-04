@@ -1,8 +1,8 @@
-import { InternalServerError } from "infra/errors";
-import { Feature } from "src/enums/feature.enum";
+import { InternalServerError } from "@infra/errors";
+import { Feature } from "@enums/feature.enum";
 
 export class Authorization {
-  static can(user, feature, resource?) {
+  static can(user, feature: Feature, resource?) {
     this.validateUser(user);
     this.validateFeature(feature);
 
@@ -23,7 +23,7 @@ export class Authorization {
     return authorized;
   }
 
-  static filterOutput(user, feature, resource) {
+  static filterOutput(user, feature: Feature, resource) {
     this.validateUser(user);
     this.validateFeature(feature);
     this.validateResource(resource);
@@ -107,7 +107,7 @@ export class Authorization {
     }
   }
 
-  private static validateFeature(feature) {
+  private static validateFeature(feature: Feature) {
     if (!feature || !Object.values(Feature).includes(feature)) {
       throw new InternalServerError({
         cause: "é necessario informa uma feature conhecida",

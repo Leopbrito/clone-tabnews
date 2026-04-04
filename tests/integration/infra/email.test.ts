@@ -1,5 +1,5 @@
-import { Email } from "infra/email";
-import { Orchestrator } from "tests/orchestrator";
+import { Email } from "@infra/email";
+import { Orchestrator } from "@tests/orchestrator";
 
 beforeAll(async () => {
   await Orchestrator.waitForAllServices();

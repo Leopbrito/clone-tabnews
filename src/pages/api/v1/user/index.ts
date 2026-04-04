@@ -1,19 +1,20 @@
-import { canRequest, injecAnonymousOrUser, onErrorHandler, onNoMatchHandler, setSessionCookie } from "infra/controller";
+import {
+  canRequest,
+  injecAnonymousOrUser,
+  onErrorHandler,
+  onNoMatchHandler,
+  setSessionCookie,
+} from "@infra/controller";
 import { createRouter } from "next-connect";
-import { Session } from "src/models/session";
-import { User } from "src/models/user";
-import { Feature } from "src/enums/feature.enum";
-import { Authorization } from "src/models/authorization";
+import { Session } from "@models/session";
+import { User } from "@models/user";
+import { Feature } from "@enums/feature.enum";
+import { Authorization } from "@models/authorization";
 
-const router = createRouter();
-
-router.use(injecAnonymousOrUser);
-router.get(canRequest(Feature.READ_SESSION), getHandler);
-
-export default router.handler({
-  onNoMatch: onNoMatchHandler,
-  onError: onErrorHandler,
-});
+export default createRouter()
+  .use(injecAnonymousOrUser)
+  .get(canRequest(Feature.READ_SESSION), getHandler)
+  .handler({ onNoMatch: onNoMatchHandler, onError: onErrorHandler });
 
 async function getHandler(request, response) {
   const userTryingToGet = request.context.user;

@@ -1,19 +1,14 @@
-import { canRequest, injecAnonymousOrUser, onErrorHandler, onNoMatchHandler } from "infra/controller";
-import { Migrator } from "src/models/migrator";
+import { canRequest, injecAnonymousOrUser, onErrorHandler, onNoMatchHandler } from "@infra/controller";
+import { Migrator } from "@models/migrator";
 import { createRouter } from "next-connect";
-import { Feature } from "src/enums/feature.enum";
-import { Authorization } from "src/models/authorization";
+import { Feature } from "@enums/feature.enum";
+import { Authorization } from "@models/authorization";
 
-const router = createRouter();
-
-router.use(injecAnonymousOrUser);
-router.get(canRequest(Feature.READ_MIGRATION), getHandler);
-router.post(canRequest(Feature.CREATE_MIGRATION), postHandler);
-
-export default router.handler({
-  onNoMatch: onNoMatchHandler,
-  onError: onErrorHandler,
-});
+export default createRouter()
+  .use(injecAnonymousOrUser)
+  .get(canRequest(Feature.READ_MIGRATION), getHandler)
+  .post(canRequest(Feature.CREATE_MIGRATION), postHandler)
+  .handler({ onNoMatch: onNoMatchHandler, onError: onErrorHandler });
 
 async function getHandler(request, response) {
   const { user } = request.context;

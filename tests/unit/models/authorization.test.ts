@@ -1,12 +1,12 @@
-import { InternalServerError } from "infra/errors";
-import { Feature } from "src/enums/feature.enum";
-import { Authorization } from "src/models/authorization";
+import { InternalServerError } from "@infra/errors";
+import { Feature } from "@enums/feature.enum";
+import { Authorization } from "@models/authorization";
 
 describe("models/authorization", () => {
   describe(".can()", () => {
     test("without `user`", () => {
       expect(() => {
-        Authorization.can();
+        Authorization.can(undefined, undefined as unknown as Feature);
       }).toThrow(InternalServerError);
     });
 
@@ -16,7 +16,7 @@ describe("models/authorization", () => {
       };
 
       expect(() => {
-        Authorization.can(createdUser);
+        Authorization.can(createdUser, undefined as unknown as Feature);
       }).toThrow(InternalServerError);
     });
 
@@ -26,7 +26,7 @@ describe("models/authorization", () => {
       };
 
       expect(() => {
-        Authorization.can(createdUser, "unknown:feature");
+        Authorization.can(createdUser, "unknown:feature" as Feature);
       }).toThrow(InternalServerError);
     });
 
@@ -42,7 +42,7 @@ describe("models/authorization", () => {
   describe(".filterOutput()", () => {
     test("without `user`", () => {
       expect(() => {
-        Authorization.filterOutput();
+        Authorization.filterOutput(undefined, undefined as unknown as Feature, undefined);
       }).toThrow(InternalServerError);
     });
 
@@ -52,7 +52,7 @@ describe("models/authorization", () => {
       };
 
       expect(() => {
-        Authorization.filterOutput(createdUser);
+        Authorization.filterOutput(createdUser, undefined as unknown as Feature, undefined);
       }).toThrow(InternalServerError);
     });
 
@@ -62,7 +62,7 @@ describe("models/authorization", () => {
       };
 
       expect(() => {
-        Authorization.filterOutput(createdUser, "unknown:feature");
+        Authorization.filterOutput(createdUser, "unknown:feature" as Feature, undefined);
       }).toThrow(InternalServerError);
     });
 
@@ -72,7 +72,7 @@ describe("models/authorization", () => {
       };
 
       expect(() => {
-        Authorization.filterOutput(createdUser, Feature.READ_USER);
+        Authorization.filterOutput(createdUser, Feature.READ_USER, undefined);
       }).toThrow(InternalServerError);
     });
 
@@ -85,8 +85,8 @@ describe("models/authorization", () => {
         id: 1,
         username: "resource",
         features: [Feature.READ_USER],
-        created_at: "2026-0101T00:00:00.000Z",
-        updated_at: "2026-0101T00:00:00.000Z",
+        created_at: "2026-01-01T00:00:00.000Z",
+        updated_at: "2026-01-01T00:00:00.000Z",
         email: "resource@resource.com",
         password: "resource",
       };
@@ -97,8 +97,8 @@ describe("models/authorization", () => {
         id: 1,
         username: "resource",
         features: [Feature.READ_USER],
-        created_at: "2026-0101T00:00:00.000Z",
-        updated_at: "2026-0101T00:00:00.000Z",
+        created_at: "2026-01-01T00:00:00.000Z",
+        updated_at: "2026-01-01T00:00:00.000Z",
       });
     });
   });

@@ -1,26 +1,26 @@
 import crypto from "node:crypto";
-import { UnauthorizedError } from "infra/errors";
-import { SessionRepository } from "src/repository/session.repository";
+import { UnauthorizedError } from "@infra/errors";
+import { SessionRepository } from "@repository/session.repository";
 
 export class Session {
   static EXPIRATION_IN_MILISECONDS = 60 * 60 * 24 * 30 * 1000; // 30 Days
 
-  static async renew(sessionId) {
+  static async renew(sessionId: string) {
     const expiresAt = new Date(Date.now() + this.EXPIRATION_IN_MILISECONDS);
     return await SessionRepository.renewSession(sessionId, expiresAt);
   }
 
-  static async expireById(sessionId) {
+  static async expireById(sessionId: string) {
     return await SessionRepository.updateTokenAsExpired(sessionId);
   }
 
-  static async create(userId) {
+  static async create(userId: string) {
     const token = crypto.randomBytes(48).toString("hex");
     const expiresAt = new Date(Date.now() + this.EXPIRATION_IN_MILISECONDS);
     return await SessionRepository.create(token, userId, expiresAt);
   }
 
-  static async findOneValidByToken(sessionToken) {
+  static async findOneValidByToken(sessionToken: string) {
     const sessionFound = await SessionRepository.findOneValidByToken(sessionToken);
 
     if (!sessionFound) {
