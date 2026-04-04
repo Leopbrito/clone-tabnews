@@ -1,8 +1,8 @@
-import { canRequest, injecAnonymousOrUser, onErrorHandler, onNoMatchHandler } from "infra/controller";
+import { canRequest, injecAnonymousOrUser, onErrorHandler, onNoMatchHandler } from "@infra/controller";
 import { createRouter } from "next-connect";
-import { Activation } from "src/models/activation";
-import { Feature } from "src/enums/feature.enum";
-import { Authorization } from "src/models/authorization";
+import { Activation } from "@models/activation";
+import { Feature } from "@enums/feature.enum";
+import { Authorization } from "@models/authorization";
 
 export default createRouter()
   .use(injecAnonymousOrUser)

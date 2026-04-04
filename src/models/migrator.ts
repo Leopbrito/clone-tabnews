@@ -1,6 +1,6 @@
 import { resolve } from "node:path";
 import migrationRunner, { RunnerOption } from "node-pg-migrate";
-import { Database } from "infra/database";
+import { Database } from "@infra/database";
 
 const defaultMigrationsOptions = {
   dryRun: true,

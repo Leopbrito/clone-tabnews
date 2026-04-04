@@ -1,12 +1,12 @@
 import retry from "async-retry";
-import { Database } from "infra/database";
-import { Migrator } from "src/models/migrator";
-import { User } from "src/models/user";
+import { Database } from "@infra/database";
+import { Migrator } from "@models/migrator";
+import { User } from "@models/user";
 import { faker } from "@faker-js/faker";
-import { Session } from "src/models/session";
-import { Activation } from "src/models/activation";
-import { Feature } from "src/enums/feature.enum";
-import { WebServer } from "infra/webserver";
+import { Session } from "@models/session";
+import { Activation } from "@models/activation";
+import { Feature } from "@enums/feature.enum";
+import { WebServer } from "@infra/webserver";
 
 const EMAIL_HTTP_URL = `http://${process.env.EMAIL_HTTP_HOST}:${process.env.EMAIL_HTTP_PORT}`;
 

@@ -1,6 +1,6 @@
-import { WebServer } from "infra/webserver";
-import { Feature } from "src/enums/feature.enum";
-import { Orchestrator } from "tests/orchestrator";
+import { WebServer } from "@infra/webserver";
+import { Feature } from "@enums/feature.enum";
+import { Orchestrator } from "@tests/orchestrator";
 import { version as uuidVersion } from "uuid";
 
 beforeAll(async () => {

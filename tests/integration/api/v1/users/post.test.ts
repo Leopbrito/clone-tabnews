@@ -1,9 +1,9 @@
-import { Orchestrator } from "tests/orchestrator";
+import { Orchestrator } from "@tests/orchestrator";
 import { version as uuidVersion } from "uuid";
-import { User } from "src/models/user";
-import { Password } from "src/models/password";
-import { Feature } from "src/enums/feature.enum";
-import { WebServer } from "infra/webserver";
+import { User } from "@models/user";
+import { Password } from "@models/password";
+import { Feature } from "@enums/feature.enum";
+import { WebServer } from "@infra/webserver";
 
 beforeAll(async () => {
   await Orchestrator.waitForAllServices();

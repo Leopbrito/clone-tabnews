@@ -1,8 +1,8 @@
 import { createRouter } from "next-connect";
-import { Database } from "infra/database";
-import { injecAnonymousOrUser, onErrorHandler, onNoMatchHandler } from "infra/controller";
-import { Authorization } from "src/models/authorization";
-import { Feature } from "src/enums/feature.enum";
+import { Database } from "@infra/database";
+import { injecAnonymousOrUser, onErrorHandler, onNoMatchHandler } from "@infra/controller";
+import { Authorization } from "@models/authorization";
+import { Feature } from "@enums/feature.enum";
 
 export default createRouter()
   .use(injecAnonymousOrUser)

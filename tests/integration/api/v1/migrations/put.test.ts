@@ -1,5 +1,5 @@
-import { WebServer } from "infra/webserver";
-import { Orchestrator } from "tests/orchestrator";
+import { WebServer } from "@infra/webserver";
+import { Orchestrator } from "@tests/orchestrator";
 
 beforeAll(async () => {
   await Orchestrator.waitForAllServices();

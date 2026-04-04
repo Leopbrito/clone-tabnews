@@ -1,7 +1,7 @@
-import { Feature } from "src/enums/feature.enum";
-import { NotFoundError, ValidationError } from "infra/errors";
-import { Password } from "src/models/password";
-import { UserRepository } from "src/repository/user.repository";
+import { Feature } from "@enums/feature.enum";
+import { NotFoundError, ValidationError } from "@infra/errors";
+import { Password } from "@models/password";
+import { UserRepository } from "@repository/user.repository";
 
 export class User {
   static async validateUniqueFields(userInputValues) {
@@ -44,7 +44,7 @@ export class User {
     return userFound;
   }
 
-  static async findOneByUsername(username) {
+  static async findOneByUsername(username: string) {
     const userFound = await UserRepository.findOneByUsername(username);
     if (!userFound) {
       throw new NotFoundError({
@@ -55,7 +55,7 @@ export class User {
     return userFound;
   }
 
-  static async findOneByEmail(email) {
+  static async findOneByEmail(email: string) {
     const userFound = await UserRepository.findOneByEmail(email);
     if (!userFound) {
       throw new NotFoundError({
@@ -66,7 +66,7 @@ export class User {
     return userFound;
   }
 
-  static async update(username, userInputValues) {
+  static async update(username: string, userInputValues) {
     const currentUser = await this.findOneByUsername(username);
 
     if ("username" in userInputValues || "email" in userInputValues) {

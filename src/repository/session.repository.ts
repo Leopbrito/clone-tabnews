@@ -1,7 +1,7 @@
-import { Database } from "infra/database";
+import { Database } from "@infra/database";
 
 export class SessionRepository {
-  static async create(token, userId, expiresAt) {
+  static async create(token: string, userId: string, expiresAt: Date) {
     const result = await Database.query({
       text: `
         INSERT INTO 
@@ -16,7 +16,7 @@ export class SessionRepository {
     return result.rows[0];
   }
 
-  static async findOneValidByToken(token) {
+  static async findOneValidByToken(token: string) {
     const result = await Database.query({
       text: `
         SELECT  
@@ -34,7 +34,7 @@ export class SessionRepository {
     return result.rows[0];
   }
 
-  static async renewSession(id, expiresAt) {
+  static async renewSession(id: string, expiresAt: Date) {
     const result = await Database.query({
       text: `
         UPDATE 
@@ -52,7 +52,7 @@ export class SessionRepository {
     return result.rows[0];
   }
 
-  static async updateTokenAsExpired(id) {
+  static async updateTokenAsExpired(id: string) {
     const result = await Database.query({
       text: `
         UPDATE 

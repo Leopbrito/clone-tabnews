@@ -5,13 +5,13 @@ import {
   onErrorHandler,
   onNoMatchHandler,
   setSessionCookie,
-} from "infra/controller";
+} from "@infra/controller";
 import { createRouter } from "next-connect";
-import { Authentication } from "src/models/authentication";
-import { Session } from "src/models/session";
-import { Authorization } from "src/models/authorization";
-import { ForbiddenError } from "infra/errors";
-import { Feature } from "src/enums/feature.enum";
+import { Authentication } from "@models/authentication";
+import { Session } from "@models/session";
+import { Authorization } from "@models/authorization";
+import { ForbiddenError } from "@infra/errors";
+import { Feature } from "@enums/feature.enum";
 
 export default createRouter()
   .use(injecAnonymousOrUser)

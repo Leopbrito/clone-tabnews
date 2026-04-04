@@ -1,8 +1,8 @@
-import { canRequest, injecAnonymousOrUser, onErrorHandler, onNoMatchHandler } from "infra/controller";
-import { Migrator } from "src/models/migrator";
+import { canRequest, injecAnonymousOrUser, onErrorHandler, onNoMatchHandler } from "@infra/controller";
+import { Migrator } from "@models/migrator";
 import { createRouter } from "next-connect";
-import { Feature } from "src/enums/feature.enum";
-import { Authorization } from "src/models/authorization";
+import { Feature } from "@enums/feature.enum";
+import { Authorization } from "@models/authorization";
 
 export default createRouter()
   .use(injecAnonymousOrUser)

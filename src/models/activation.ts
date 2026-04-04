@@ -1,10 +1,10 @@
-import { Email } from "infra/email";
-import { ForbiddenError, NotFoundError } from "infra/errors";
-import { WebServer } from "infra/webserver";
-import { User } from "src/models/user";
-import { Authorization } from "src/models/authorization";
-import { ActivationRepository } from "src/repository/activation.repository";
-import { Feature } from "src/enums/feature.enum";
+import { Email } from "@infra/email";
+import { ForbiddenError, NotFoundError } from "@infra/errors";
+import { WebServer } from "@infra/webserver";
+import { User } from "@models/user";
+import { Authorization } from "@models/authorization";
+import { ActivationRepository } from "@repository/activation.repository";
+import { Feature } from "@enums/feature.enum";
 
 const activationEmailTemplate = (username: string, activationToken: string) => {
   return `${username}, clique no link abaixo para ativar sua conta:
@@ -18,17 +18,17 @@ Tabnews`;
 export class Activation {
   static EXPIRATION_IN_MILISECONDS = 60 * 15 * 1000; // 15 Minutes
 
-  static async create(userId) {
+  static async create(userId: string) {
     const expiresAt = new Date(Date.now() + this.EXPIRATION_IN_MILISECONDS);
     return await ActivationRepository.create(userId, expiresAt);
   }
 
-  static async markTokenAsUsed(tokenId) {
+  static async markTokenAsUsed(tokenId: string) {
     const activationToken = await ActivationRepository.updateTokenAsUsed(tokenId);
     return activationToken;
   }
 
-  static async activateUserByUserId(userId) {
+  static async activateUserByUserId(userId: string) {
     const userToActivate = await User.findOneById(userId);
 
     if (!Authorization.can(userToActivate, Feature.READ_ACTIVATION_TOKEN)) {
@@ -43,7 +43,7 @@ export class Activation {
     return activatedUser;
   }
 
-  static async findOneValidById(activationId) {
+  static async findOneValidById(activationId: string) {
     const activationTokenFound = await ActivationRepository.findOneValidById(activationId);
     if (!activationTokenFound) {
       throw new NotFoundError({

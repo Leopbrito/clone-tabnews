@@ -1,7 +1,7 @@
-import { Database } from "infra/database";
+import { Database } from "@infra/database";
 
 export class ActivationRepository {
-  static async create(userId, expiresAt) {
+  static async create(userId: string, expiresAt: Date) {
     const result = await Database.query({
       text: `
         INSERT INTO 
@@ -16,7 +16,7 @@ export class ActivationRepository {
     return result.rows[0];
   }
 
-  static async findOneValidById(id) {
+  static async findOneValidById(id: string) {
     const result = await Database.query({
       text: `
         SELECT  
@@ -35,7 +35,7 @@ export class ActivationRepository {
     return result.rows[0];
   }
 
-  static async updateTokenAsUsed(id) {
+  static async updateTokenAsUsed(id: string) {
     const result = await Database.query({
       text: `
         UPDATE 
