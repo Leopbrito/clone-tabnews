@@ -41,6 +41,7 @@ describe("DELETE /api/v1/sessions", () => {
         maxAge: -1,
         path: "/",
         httpOnly: true,
+        sameSite: "Lax",
       });
     });
 
@@ -82,6 +83,7 @@ describe("DELETE /api/v1/sessions", () => {
         maxAge: -1,
         path: "/",
         httpOnly: true,
+        sameSite: "Lax",
       });
     });
 
@@ -117,6 +119,7 @@ describe("DELETE /api/v1/sessions", () => {
         maxAge: -1,
         path: "/",
         httpOnly: true,
+        sameSite: "Lax",
       });
 
       expect(response1Body.expires_at < sessionObject.expires_at.toISOString()).toBe(true);
@@ -148,6 +151,7 @@ describe("DELETE /api/v1/sessions", () => {
         maxAge: -1,
         path: "/",
         httpOnly: true,
+        sameSite: "Lax",
       });
     });
   });
