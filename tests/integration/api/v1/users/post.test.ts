@@ -3,6 +3,7 @@ import { version as uuidVersion } from "uuid";
 import { User } from "src/models/user";
 import { Password } from "src/models/password";
 import { Feature } from "src/enums/feature.enum";
+import { WebServer } from "infra/webserver";
 
 beforeAll(async () => {
   await Orchestrator.waitForAllServices();
@@ -13,7 +14,7 @@ beforeAll(async () => {
 describe("POST /api/v1/users", () => {
   describe("Anonymous user", () => {
     test("With unique and valid data", async () => {
-      const response = await fetch("http://localhost:3000/api/v1/users", {
+      const response = await fetch(`${WebServer.origin}/api/v1/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -52,7 +53,7 @@ describe("POST /api/v1/users", () => {
         email: "duplicated.email@test.com",
       });
 
-      const response = await fetch("http://localhost:3000/api/v1/users", {
+      const response = await fetch(`${WebServer.origin}/api/v1/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +81,7 @@ describe("POST /api/v1/users", () => {
         username: "duplicatedUser",
       });
 
-      const response = await fetch("http://localhost:3000/api/v1/users", {
+      const response = await fetch(`${WebServer.origin}/api/v1/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -110,7 +111,7 @@ describe("POST /api/v1/users", () => {
       await Orchestrator.activateUser(user1);
       const user1SessionObject = await Orchestrator.createSession(user1);
 
-      const response = await fetch(`http://localhost:3000/api/v1/users`, {
+      const response = await fetch(`${WebServer.origin}/api/v1/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,3 +1,4 @@
+import { WebServer } from "infra/webserver";
 import { Feature } from "src/enums/feature.enum";
 import { Orchestrator } from "tests/orchestrator";
 
@@ -10,7 +11,7 @@ beforeAll(async () => {
 describe("GET /api/v1/status", () => {
   describe("Anonymous user", () => {
     test("Retrieving application status", async () => {
-      const response = await fetch("http://localhost:3000/api/v1/status");
+      const response = await fetch(`${WebServer.origin}/api/v1/status`);
       expect(response.status).toBe(200);
 
       const responseBody = await response.json();
@@ -27,7 +28,7 @@ describe("GET /api/v1/status", () => {
     test("Retrieving application status", async () => {
       const sessionObject = await Orchestrator.createSessionFromActivatedUser();
 
-      const response = await fetch("http://localhost:3000/api/v1/status", {
+      const response = await fetch(`${WebServer.origin}/api/v1/status`, {
         headers: {
           Cookie: `session_id=${sessionObject.token}`,
         },
@@ -50,7 +51,7 @@ describe("GET /api/v1/status", () => {
         userFeatures: [Feature.READ_STATUS_ALL],
       });
 
-      const response = await fetch("http://localhost:3000/api/v1/status", {
+      const response = await fetch(`${WebServer.origin}/api/v1/status`, {
         headers: {
           Cookie: `session_id=${sessionObject.token}`,
         },

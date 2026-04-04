@@ -1,6 +1,7 @@
 import { Session } from "src/models/session";
 import { Orchestrator } from "tests/orchestrator";
 import setCookieParser from "set-cookie-parser";
+import { WebServer } from "infra/webserver";
 
 beforeAll(async () => {
   await Orchestrator.waitForAllServices();
@@ -14,7 +15,7 @@ describe("DELETE /api/v1/sessions", () => {
       const nonexistentToken =
         "4bcfcede1b041edfd0c2820196a9d51ce0a608a9b094cb876e7573aa143ac11591453af9a2749d3056b9b00f0fa05180";
 
-      const response = await fetch("http://localhost:3000/api/v1/sessions", {
+      const response = await fetch(`${WebServer.origin}/api/v1/sessions`, {
         method: "DELETE",
         headers: {
           Cookie: `session_id=${nonexistentToken}`,
@@ -54,7 +55,7 @@ describe("DELETE /api/v1/sessions", () => {
 
       jest.useRealTimers();
 
-      const response = await fetch("http://localhost:3000/api/v1/sessions", {
+      const response = await fetch(`${WebServer.origin}/api/v1/sessions`, {
         method: "DELETE",
         headers: {
           Cookie: `session_id=${sessionObject.token}`,
@@ -88,7 +89,7 @@ describe("DELETE /api/v1/sessions", () => {
       const createdUser = await Orchestrator.createUser();
       const sessionObject = await Orchestrator.createSession(createdUser);
 
-      const response1 = await fetch("http://localhost:3000/api/v1/sessions", {
+      const response1 = await fetch(`${WebServer.origin}/api/v1/sessions`, {
         method: "DELETE",
         headers: {
           Cookie: `session_id=${sessionObject.token}`,
@@ -121,7 +122,7 @@ describe("DELETE /api/v1/sessions", () => {
       expect(response1Body.expires_at < sessionObject.expires_at.toISOString()).toBe(true);
       expect(response1Body.updated_at > sessionObject.updated_at.toISOString()).toBe(true);
 
-      const response2 = await fetch("http://localhost:3000/api/v1/sessions", {
+      const response2 = await fetch(`${WebServer.origin}/api/v1/sessions`, {
         method: "DELETE",
         headers: {
           Cookie: `session_id=${sessionObject.token}`,
